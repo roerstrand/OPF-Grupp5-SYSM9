@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,9 +10,9 @@ namespace Cyberquiz.DAL.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public string CategoryModelId { get; set; }
+        public ICollection <CategoryModel> CategoryModelId { get; set; }
 
-        public int QuestionModelId { get; set; }
-
+        public ICollection <QuestionModel> QuestionModelId { get; set; }
+        
     }
 }

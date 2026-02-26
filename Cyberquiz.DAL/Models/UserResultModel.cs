@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,3 +14,5 @@ namespace Cyberquiz.DAL.Models
         public DateTime Date { get; set; }
     }
 }
+
+//Add-Migration InitialCreate  -Context AppDbContext -Project CyberQuiz.DAL -StartupProject CyberQuiz.API

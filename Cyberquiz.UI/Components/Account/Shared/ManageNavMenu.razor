@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Cyberquiz.UI.Data
+﻿@using Cyberquiz.DAL.Data
+@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -38,3 +38,8 @@
         hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     }
 }
+
+@* Add-migration InitialCreate -Context AppDbContext -Project CyberQuiz.DAL -StartupProject CyberQuiz.API
+ 
+update-database -Project CyberQuiz.DAL -StartupProject CyberQuiz.API *@
+

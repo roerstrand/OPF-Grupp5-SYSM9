@@ -12,15 +12,16 @@ namespace Cyberquiz.DAL.Data
         {
         }
 
-        private DbSet<CategoryModel> Categories;
+        // Make these public DbSet properties so EF Core can discover the entity types
+        public DbSet<CategoryModel> Categories { get; set; } = null!;
 
-        private DbSet<SubCategoryModel> SubCategories;
+        public DbSet<SubCategoryModel> SubCategories { get; set; } = null!;
 
-        private DbSet<QuestionAnswerModel> QuestionAnswers;
+        public DbSet<QuestionAnswerModel> QuestionAnswers { get; set; } = null!;
 
-        private DbSet<UserResultModel> UserResults;
+        public DbSet<UserResultModel> UserResults { get; set; } = null!;
 
-        private DbSet<QuestionModel> Questions;
+        public DbSet<QuestionModel> Questions { get; set; } = null!;
 
     }
 }
