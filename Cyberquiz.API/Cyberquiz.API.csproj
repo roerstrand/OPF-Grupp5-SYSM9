@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cyberquiz.BLL\Cyberquiz.BLL.csproj" />
     <ProjectReference Include="..\Cyberquiz.Shared\Cyberquiz.Shared.csproj" />
   </ItemGroup>
 

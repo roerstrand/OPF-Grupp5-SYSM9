@@ -9,6 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Cyberquiz.API\Cyberquiz.API.csproj" />
 		<ProjectReference Include="..\Cyberquiz.Shared\Cyberquiz.Shared.csproj" />
 	</ItemGroup>
 
