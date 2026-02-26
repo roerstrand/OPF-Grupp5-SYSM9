@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    internal interface IQuizService // Interface för kontrakt med Service
+    public interface IQuizService // Interface för kontrakt med Service
     {
     }
 }

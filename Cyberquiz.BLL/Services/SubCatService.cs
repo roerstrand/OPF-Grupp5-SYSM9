@@ -5,8 +5,11 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Services
 {
-    // Serviceklass implementerar Interface 
-    // Hanera framstegsregler
+    // Skapa subkategoriöversikt (för UI)
+    // Hämta subkategori
+    // Räkna antal frågor
+    // Kontrollera upplåsning
+    // Returnera SubCategoryDto
     public class SubCatService : ISubCatService // Serviceklass implementerar Interface
     {
     }

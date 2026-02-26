@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    internal interface ICategoryService // Interface för kontrakt med Service
+    // Hämta kategorier
+    public interface ICategoryService // Interface för kontrakt med Service
     {
     }
 }

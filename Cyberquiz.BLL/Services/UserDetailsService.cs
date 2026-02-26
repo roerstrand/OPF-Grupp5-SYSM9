@@ -5,7 +5,13 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Services
 {
-    // Serviceklass implementerar Interface
+    // Hämtar användare via Identity
+    // Uppdaterar email
+    // Byter lösenord??? Orkar vi det???
+    // Hämtar total progression
+    // Hämtar genomsnittlig score
+    // Använder ResultService
+    // Använder ProgressService
     public class UserDetailsService : IUserDetailsService // Serviceklass implementerar Interface
     {
     }
