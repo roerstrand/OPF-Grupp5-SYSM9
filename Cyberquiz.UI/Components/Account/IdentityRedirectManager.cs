@@ -1,4 +1,4 @@
-using Cyberquiz.UI.Data;
+using Cyberquiz.DAL.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 

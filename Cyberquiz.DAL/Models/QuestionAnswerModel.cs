@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Cyberquiz.DAL.Models
 {
@@ -14,3 +16,5 @@ namespace Cyberquiz.DAL.Models
 
     }
 }
+
+//Update-Database -Context AuthDbContext -Project CyberQuiz.DAL -StartupProject CyberQuiz.API
