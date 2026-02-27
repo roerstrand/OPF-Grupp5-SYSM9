@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Cyberquiz.DAL.Models;
@@ -12,16 +12,55 @@ namespace Cyberquiz.DAL.Data
         {
         }
 
-        // Make these public DbSet properties so EF Core can discover the entity types
         public DbSet<CategoryModel> Categories { get; set; } = null!;
 
         public DbSet<SubCategoryModel> SubCategories { get; set; } = null!;
 
-        public DbSet<QuestionAnswerModel> QuestionAnswers { get; set; } = null!;
+        public DbSet<AnswerOptionModel> AnswerOptions { get; set; } = null!;
 
-        public DbSet<UserResultModel> UserResults { get; set; } = null!;
+        public DbSet<QuestionAnswerOptionModel> QuestionAnswerOptions { get; set; } = null!;
+
+        public DbSet<QuizModel> Quizzes { get; set; } = null!;
+
+        public DbSet<UserProgressModel> UserProgress { get; set; } = null!;
 
         public DbSet<QuestionModel> Questions { get; set; } = null!;
 
+        public DbSet<UserAnswerModel> UserAnswers { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Explicit junction entity med payload (IsCorrect)
+            modelBuilder.Entity<QuestionAnswerOptionModel>()
+                .HasKey(x => new { x.QuestionId, x.AnswerOptionId });
+
+            modelBuilder.Entity<QuestionAnswerOptionModel>()
+                .HasOne(x => x.Question)
+                .WithMany(q => q.QuestionAnswerOptions)
+                .HasForeignKey(x => x.QuestionId);
+
+            modelBuilder.Entity<QuestionAnswerOptionModel>()
+                .HasOne(x => x.AnswerOption)
+                .WithMany(a => a.QuestionAnswerOptions)
+                .HasForeignKey(x => x.AnswerOptionId);
+
+            // Quiz ↔ Question: automatisk many-to-many (ingen payload, EF skapar shadow join-tabell)
+            modelBuilder.Entity<QuizModel>()
+                .HasMany(q => q.Questions)
+                .WithMany(q => q.Quizzes);
+
+            // Undvik multipla cascade-paths: Category → SubCategory → Question
+            modelBuilder.Entity<QuestionModel>()
+                .HasOne(q => q.SubCategory)
+                .WithMany(sc => sc.Questions)
+                .HasForeignKey(q => q.SubCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<QuestionModel>()
+                .HasOne(q => q.Category)
+                .WithMany(c => c.Questions)
+                .HasForeignKey(q => q.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

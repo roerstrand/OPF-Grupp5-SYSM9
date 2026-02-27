@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Cyberquiz.DAL.Models;
 
 namespace Cyberquiz.DAL.Interface
 {
-    public class IUserRepository
+    public interface IQuestionRepository
     {
+        // Hämtar en enskild fråga med svarsalternativ
+        Task<QuestionModel?> GetByIdAsync(int id);
 
+        // Hämtar alla frågor som tillhör en specifik subkategori
+        Task<IEnumerable<QuestionModel>> GetBySubCategoryAsync(int subCategoryId);
     }
 }

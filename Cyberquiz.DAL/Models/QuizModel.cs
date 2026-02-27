@@ -4,13 +4,17 @@ using System.Text;
 
 namespace Cyberquiz.DAL.Models
 {
-    public class CategoryModel
+    public class QuizModel
     {
         public int Id { get; set; }
+
         public string Name { get; set; } = string.Empty;
 
-        public ICollection<SubCategoryModel> SubCategories { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public ICollection<QuestionModel> Questions { get; set; }
+
+        public int? SubCategoryId { get; set; }
+        public SubCategoryModel? SubCategory { get; set; }
     }
 }
