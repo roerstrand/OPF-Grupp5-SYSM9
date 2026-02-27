@@ -8,8 +8,8 @@ namespace Cyberquiz.Shared.DTOs
     {
         public int Id { get; set; }
 
-        public string Question { get; set; }
+        public string Question { get; set; } // Visar frågan
 
-        
+
     }
 }
