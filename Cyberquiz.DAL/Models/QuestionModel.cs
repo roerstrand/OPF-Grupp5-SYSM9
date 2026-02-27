@@ -1,8 +1,4 @@
-﻿using Cyberquiz.DAL.Migrations;
-using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,12 +10,12 @@ namespace Cyberquiz.DAL.Models
 
         public string Question { get; set; }
 
-        public ICollection<QuestionAnswerModel> QuestionAnswer { get; set; }
+        public ICollection<QuestionAnswerOptionModel> QuestionAnswerOptions { get; set; }
+
+        public ICollection<QuizModel> Quizzes { get; set; }
 
         public ICollection<CategoryModel> CategoryId { get; set; }
 
         public ICollection<SubCategoryModel> SubCategoryId { get; set; }
     }
 }
-
-//Add-Migration InitialCreate -Context AuthDbContext -Project CyberQuiz.DAL -StartupProject CyberQuiz.API
