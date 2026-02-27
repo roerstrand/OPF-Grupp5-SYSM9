@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    internal interface ISubCatService // Interface för kontrakt med Service
+    public interface ISubCatService // Interface för kontrakt med Service
     {
-        GetSubCatByIdAsync
+        // Definierar interface för att hämta kategorier
+        // // Använder Dummy-Repo under utvecklingsfasen
     }
 }

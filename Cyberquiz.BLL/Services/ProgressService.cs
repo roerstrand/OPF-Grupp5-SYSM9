@@ -1,7 +1,10 @@
-﻿using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.DummyFilesBLL;
+using Cyberquiz.BLL.Interfaces;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Cyberquiz.BLL.DummyFilesBLL.IDummyInterface;
 
 namespace Cyberquiz.BLL.Services
 {
@@ -10,31 +13,32 @@ namespace Cyberquiz.BLL.Services
     public class ProgressService : IProgressService // Serviceklass implementerar Interface
     {
         // Fält
-        private readonly AppDbContext _appContext;
+        private readonly IUserResRepo _resultRepo;
+        private readonly IQRepo _questionRepo;
 
         // Konstruktor
-        public ProgressService(AppDbContext appContext) 
+        public ProgressService(
+            IUserResRepo resultRepo,
+            IQRepo questionRepo)
         {
-            _appContext = appContext;
+            _resultRepo = resultRepo;
+            _questionRepo = questionRepo;
         }
 
         // Metod för att avgöra om en subkategori är upplåst - tar ID för användaren och underkategorin som argument
-        public async Task<bool> IsSubCategoryUnlockedAsync(string userId, SubCategory subCat)
+        public async Task<bool> IsSubCatUnlockedAsync(string userId, int subCatId)
         {
-            // Säkerställ att första underkategorin är upplåst
-            if (subCat.Order == 1) {
-                return true;
-            }
-            // Hämta den senaste underkategorin
-            // Metod ska läggas till i ISubCatService och SubCatService
-            // Hämta föregående underkategori och användarens resultat för den
-            var score = await _iMyResultService.GetScoreForSubCategoryAsync(userId, subCatId - 1);
-            // Kontrollera >= 0.8
-            if (score >= 0.8) {
-                return true;
-            }
-            return false;
-        }
+            // Lokal variabel för att hämta frågor från underkategorin
+            var questions = await _questionRepo.GetQsBySubCategoryIdAsync(subCatId);
+            // Lokal variabel för att hämta användarens resultat för underkategorin
+            var results = await _resultRepo.GetResultsByUserIdAsync(userId, subCatId); // Denna behöver korrigeras baserat på datamodeller Dummies är ej fullständiga!
 
+            // Om inga frågor: returnera false (kan inte låsa upp en subkategori utan frågor)
+            if (!questions.Any()) {
+                return false;
+            }
+            double resultsScore = results.Count(res => res.IsCorrect) / (double)questions.Count(); // Ger andel rätt svar i underkatergorin
+            return resultsScore >= 0.80;
+        }
     }
 }

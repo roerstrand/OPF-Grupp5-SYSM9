@@ -1,10 +1,13 @@
-﻿using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.DummyFilesBLL;
+using Cyberquiz.BLL.Interfaces;
+using Cyberquiz.DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Mono.TextTemplating;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Cyberquiz.BLL.DummyFilesBLL.DummyClassCollection;
 
 namespace Cyberquiz.BLL.Services
 {
@@ -15,12 +18,24 @@ namespace Cyberquiz.BLL.Services
     // Säkerställa att quiz får startas
     public class QuizService : IQuizService // Serviceklass implementerar Interface
     {
-        // Fält för progress-service
-        private 
+
+        // Fält
+        private readonly IQRepo _questionRepo;
+
         // Konstruktor 
-        public QuizService() 
-        { 
+        public QuizService(IQRepo questionRepo)
+        {
+            _questionRepo = questionRepo;
         }
+        // Metod för att hämta frågor baserat på underkategori
+
+        public async Task<List<Question>> GetQuestionsAsync(int subCategoryId)
+        {
+            return await _questionRepo.GetBySubCategoryIdAsync(subCategoryId);
+        }
+
+        // KOMMANDE METODER
+
         // StartQuizAsync
         // Kolla via ProgressService om upplåst
         // Hämta frågor
@@ -32,6 +47,5 @@ namespace Cyberquiz.BLL.Services
         // Kolla att alternativet tillhör frågan
         // Kolla om svar är rätt
         // Returnera feedback
-
     }
 }

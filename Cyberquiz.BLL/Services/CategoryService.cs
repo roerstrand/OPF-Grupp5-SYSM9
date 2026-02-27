@@ -1,28 +1,26 @@
-﻿using Cyberquiz.BLL.Interfaces;
-using Cyberquiz.BLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Cyberquiz.BLL.DummyFilesBLL;
+using Cyberquiz.BLL.Interfaces;
+using static Cyberquiz.BLL.DummyFilesBLL.DummyClassCollection;
 
 namespace Cyberquiz.BLL.Services
 {
     // Skapa kategoriöversikt (för UI)
     public class CategoryService : ICategoryService // Serviceklass implementerar Interface
     {
-        // Fält och egenskaper
-        private readonly ICategoryService _iCategoryService;
-        private readonly 
+        // Använder ICategoryRepository för att hämta kategorier
+        private readonly ICatRepo _categoryRepo;
 
+        public CategoryService(
+            ICatRepo categoryRepo)
+        {
+            _categoryRepo = categoryRepo;
+        }
 
-        // Hämta kategorier
-        public CategoryService() { }
-
-
-        // Hämta subkategorier
-
-        // Anropa ProgressService
-        // Anropa ResultService
-        // Mappa till CategoryOverviewDto
-
+        // Metod för att hämta kategorier
+        public async Task<List<Category>> GetAllAsync()
+        {
+            return await _categoryRepo.GetAllAsync();
+        }
+        // Mappa till CategoryOverviewDto - SENARE 
     }
 }
