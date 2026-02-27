@@ -22,7 +22,7 @@ namespace Cyberquiz.BLL.Services
         // Fält
         private readonly IQRepo _questionRepo;
 
-        // Konstruktor 
+        // Konstruktor
         public QuizService(IQRepo questionRepo)
         {
             _questionRepo = questionRepo;

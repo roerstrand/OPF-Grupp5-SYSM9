@@ -4,7 +4,7 @@ using static Cyberquiz.BLL.DummyFilesBLL.DummyClassCollection;
 
 namespace Cyberquiz.BLL.Services
 {
-    // Hanterar användarnas framgång
+    // Hanterar användarnas resultat
     // Spara resultat
     // Hämta senaste resultat
     // Hämta historik
