@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.SignalR.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static Cyberquiz.BLL.DummyFilesBLL.IDummyInterface;
+using static Cyberquiz.BLL.DummyFilesBLL.DummyClassCollection;
+
 
 namespace Cyberquiz.BLL.Services
 {

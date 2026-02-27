@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    // Hämta kategorier
+    // Hämta kategorier från databas via Interface (IService) som hämtar via ????
     public interface ICategoryService // Interface för kontrakt med Service
     {
         // Definierar interface för att hämta kategorier
