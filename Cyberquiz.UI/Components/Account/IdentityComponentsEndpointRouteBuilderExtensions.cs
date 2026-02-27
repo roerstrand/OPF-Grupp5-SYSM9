@@ -1,6 +1,5 @@
 using Cyberquiz.UI.Components.Account.Pages;
 using Cyberquiz.UI.Components.Account.Pages.Manage;
-using Cyberquiz.UI.Data;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Text.Json;
+using Cyberquiz.DAL.Data;
 
 namespace Microsoft.AspNetCore.Routing
 {
