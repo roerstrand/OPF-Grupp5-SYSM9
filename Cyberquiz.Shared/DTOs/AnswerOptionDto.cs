@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Cyberquiz.Shared.DTOs
 {
-    public class CategoryDto
+    public class AnswerOptionDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = string.Empty; //Visar Categoryn namn 
+
+        public string Answer { get; set; } = string.Empty; //Visar svaren på frågan
 
     }
 }
