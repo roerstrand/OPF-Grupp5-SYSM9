@@ -12,5 +12,7 @@ namespace Cyberquiz.BLL.Services
     // Returnera SubCategoryDto
     public class SubCatService : ISubCatService // Serviceklass implementerar Interface
     {
+        GetSubCatByIdAsync
+
     }
 }

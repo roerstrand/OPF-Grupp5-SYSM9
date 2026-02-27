@@ -6,5 +6,6 @@ namespace Cyberquiz.BLL.Interfaces
 {
     internal interface ISubCatService // Interface för kontrakt med Service
     {
+        GetSubCatByIdAsync
     }
 }
