@@ -8,7 +8,7 @@ namespace Cyberquiz.Shared.DTOs
     {
         public int Id { get; set; }
 
-        public string Answer { get; set; } = string.Empty;
+        public string Answer { get; set; } = string.Empty; //Visar svaren på frågan
 
         //public int QuestionId { get; set; }
         //public string QuestionAnswer { get; set; }

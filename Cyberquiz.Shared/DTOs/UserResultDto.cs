@@ -7,8 +7,8 @@ namespace Cyberquiz.Shared.DTOs
     public class UserResultDto
     {
         public int Id { get; set; }
-        public string UserName { get; set; } = string.Empty;
-        public int Score { get; set; }
+        public string UserName { get; set; } = string.Empty; //Visar användarnamnet
+        public int Score { get; set; } //Visar poängen användaren fick
         //public DateTime Date { get; set; }
     }
 }
