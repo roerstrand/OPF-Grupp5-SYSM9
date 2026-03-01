@@ -20,12 +20,15 @@ namespace Cyberquiz.UI.Services
         public async Task<List<SubCategoryDto>> GetSubCategoiesByCategoryIdAsync(int categoryId)
             => await _httpClient.GetFromJsonAsync<List<SubCategoryDto>>($"api/categories/{categoryId}/subcategories") ?? new();
 
-        public async Task<QuestionDto?> GetNextQuestionAsync (int subCategoryId)
+        //public async Task<List<QuestionDto>> GetQuestionsAsync(int subCategoryId)
+        //     => await _httpClient.GetFromJsonAsync<List<QuestionDto>>($"api/quiz/{subCategoryId}") ?? new();
+
+        public async Task<QuestionDto?> GetNextQuestionAsync(int subCategoryId)
             => await _httpClient.GetFromJsonAsync<QuestionDto>($"api/quiz/subcategory/{subCategoryId}/next");
 
         public async Task<SubmitResponseDto?> SubmitAnswerWithFeedbackAsync(SubmitAnswerRequestDto request)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/quiz/submit", request);
+            var response = await _httpClient.PostAsJsonAsync("api/quiz/answer", request);
 
             if (!response.IsSuccessStatusCode)
             {

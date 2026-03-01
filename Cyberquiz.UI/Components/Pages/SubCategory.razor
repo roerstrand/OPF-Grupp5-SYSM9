@@ -24,13 +24,13 @@ else
     public int CategoryId { get; set; }
     private List<SubCategoryDto>? subCategories;
 
-    protected override async Task OnInitializedAsync() //OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync() 
     {
         subCategories = await ApiService.GetSubCategoiesByCategoryIdAsync(CategoryId);
     }
 
     private void StartQuiz(int subCategoryId)
     {
-        Nav.NavigateTo($"/quiz/{subCategoryId}");
+        Nav.NavigateTo($"/quiz/{subCategoryId}"); //islocked
     }
 }
