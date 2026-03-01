@@ -13,5 +13,9 @@ namespace Cyberquiz.Shared.DTOs
         public string Description { get; set; } = string.Empty;
 
         public ICollection<QuestionDto> Questions { get; set; }
+
+        public int? SubCategoryId { get; set; }
+
+        public string SubCategoryName { get; set; } = string.Empty;
     }
 }

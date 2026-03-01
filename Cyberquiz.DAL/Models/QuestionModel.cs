@@ -14,8 +14,10 @@ namespace Cyberquiz.DAL.Models
 
         public ICollection<QuizModel> Quizzes { get; set; }
 
-        public ICollection<CategoryModel> CategoryId { get; set; }
+        public int CategoryId { get; set; }
+        public CategoryModel Category { get; set; }
 
-        public ICollection<SubCategoryModel> SubCategoryId { get; set; }
+        public int SubCategoryId { get; set; }
+        public SubCategoryModel SubCategory { get; set; }
     }
 }

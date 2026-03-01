@@ -10,6 +10,43 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
+
+
+// Ta bort följande konfigs nedan då identity hanteras i API. UI skickar Auth DTOs till API.
+
+//builder.Services.AddCascadingAuthenticationState();
+//builder.Services.AddScoped<IdentityRedirectManager>();
+//builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+//    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+//}).AddIdentityCookies();
+
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+//builder.Services.AddIdentityCore<ApplicationUser>(options =>
+//    {
+//        options.SignIn.RequireConfirmedAccount = true;
+//        options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
+//    })
+//    .AddEntityFrameworkStores<AuthDbContext>()
+//    .AddSignInManager()
+//    .AddDefaultTokenProviders();
+
+//builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+//app.UseMigrationsEndPoint();
+//app.MapAdditionalIdentityEndpoints();
+
+
+
+
+
+
+
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

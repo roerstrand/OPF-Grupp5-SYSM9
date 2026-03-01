@@ -8,8 +8,8 @@ namespace Cyberquiz.DAL.Models
 
         public string UserName { get; set; } = string.Empty;
 
-        public int QuizId { get; set; }
-        public QuizModel Quiz { get; set; }
+        public int SubCategoryId { get; set; }
+        public SubCategoryModel SubCategory { get; set; }
 
         public int Score { get; set; }
 

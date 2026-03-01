@@ -26,6 +26,8 @@ namespace Cyberquiz.DAL.Data
 
         public DbSet<QuestionModel> Questions { get; set; } = null!;
 
+        public DbSet<UserAnswerModel> UserAnswers { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Explicit junction entity med payload (IsCorrect)
@@ -46,6 +48,19 @@ namespace Cyberquiz.DAL.Data
             modelBuilder.Entity<QuizModel>()
                 .HasMany(q => q.Questions)
                 .WithMany(q => q.Quizzes);
+
+            // Undvik multipla cascade-paths: Category → SubCategory → Question
+            modelBuilder.Entity<QuestionModel>()
+                .HasOne(q => q.SubCategory)
+                .WithMany(sc => sc.Questions)
+                .HasForeignKey(q => q.SubCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<QuestionModel>()
+                .HasOne(q => q.Category)
+                .WithMany(c => c.Questions)
+                .HasForeignKey(q => q.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

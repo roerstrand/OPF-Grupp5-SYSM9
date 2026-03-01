@@ -3,7 +3,10 @@ using Cyberquiz.BLL.Services;
 using Cyberquiz.DAL.Data;
 using Cyberquiz.DAL.Interface;
 using Cyberquiz.DAL.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +20,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+})
+.AddEntityFrameworkStores<AuthDbContext>();
+
 // DAL
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 // BLL
 builder.Services.AddScoped<IQuizService, QuizService>();
@@ -44,6 +54,9 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await DbSeeder.SeedAsync(db);
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    await AuthSeeder.SeedAsync(userManager);
 }
 
 // Configure the HTTP request pipeline.
@@ -54,7 +67,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Lägg till authentication för app här
+//app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

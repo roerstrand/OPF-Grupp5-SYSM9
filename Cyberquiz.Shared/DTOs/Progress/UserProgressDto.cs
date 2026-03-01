@@ -6,9 +6,9 @@ namespace Cyberquiz.Shared.DTOs
 
         public string UserName { get; set; } = string.Empty;
 
-        public int QuizId { get; set; }
+        public int SubCategoryId { get; set; }
 
-        public string QuizName { get; set; } = string.Empty;
+        public string SubCategoryName { get; set; } = string.Empty;
 
         public int Score { get; set; }
 

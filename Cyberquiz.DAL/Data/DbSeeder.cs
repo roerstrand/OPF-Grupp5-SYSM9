@@ -190,6 +190,83 @@ namespace Cyberquiz.DAL.Data
             var aParon   = new AnswerOptionModel { Answer = "Päron" };
             var aPlommon = new AnswerOptionModel { Answer = "Plommon" };
 
+            // Skandinaviska städer
+            var aOslo        = new AnswerOptionModel { Answer = "Oslo" };
+            var aKopenhagen  = new AnswerOptionModel { Answer = "Köpenhamn" };
+            var aHelsinki    = new AnswerOptionModel { Answer = "Helsingfors" };
+            var aNorge       = new AnswerOptionModel { Answer = "Norge" };
+            var aDanmark     = new AnswerOptionModel { Answer = "Danmark" };
+            var aFinland     = new AnswerOptionModel { Answer = "Finland" };
+            var aSverige     = new AnswerOptionModel { Answer = "Sverige" };
+
+            // Medeltiden — årtal
+            var a1066 = new AnswerOptionModel { Answer = "1066" };
+            var a1215 = new AnswerOptionModel { Answer = "1215" };
+            var a1348 = new AnswerOptionModel { Answer = "1348" };
+            var a1389 = new AnswerOptionModel { Answer = "1389" };
+            var a1453 = new AnswerOptionModel { Answer = "1453" };
+            var a1492 = new AnswerOptionModel { Answer = "1492" };
+            var a1500 = new AnswerOptionModel { Answer = "1500" };
+
+            // Biologi
+            var a1   = new AnswerOptionModel { Answer = "1" };
+            var a22  = new AnswerOptionModel { Answer = "22" };
+            var a23  = new AnswerOptionModel { Answer = "23" };
+            var a24  = new AnswerOptionModel { Answer = "24" };
+            var a46  = new AnswerOptionModel { Answer = "46" };
+            var aCellen    = new AnswerOptionModel { Answer = "Cellen" };
+            var aAtomen    = new AnswerOptionModel { Answer = "Atomen" };
+            var aMolekylen = new AnswerOptionModel { Answer = "Molekylen" };
+            var aVavnaden  = new AnswerOptionModel { Answer = "Vävnaden" };
+
+            // Tennis
+            var aLove           = new AnswerOptionModel { Answer = "Love" };
+            var aZero           = new AnswerOptionModel { Answer = "Zero" };
+            var aNil            = new AnswerOptionModel { Answer = "Nil" };
+            var aNoll           = new AnswerOptionModel { Answer = "Noll" };
+            var aRolandGarros   = new AnswerOptionModel { Answer = "Roland Garros" };
+            var aWimbledon      = new AnswerOptionModel { Answer = "Wimbledon" };
+            var aUSOpen         = new AnswerOptionModel { Answer = "US Open" };
+            var aAustralianOpen = new AnswerOptionModel { Answer = "Australian Open" };
+
+            // Jazz — instrument
+            var aTrumpet  = new AnswerOptionModel { Answer = "Trumpet" };
+            var aSaxofon  = new AnswerOptionModel { Answer = "Saxofon" };
+            var aPiano    = new AnswerOptionModel { Answer = "Piano" };
+            var aKlarinet = new AnswerOptionModel { Answer = "Klarinett" };
+
+            // Serier & TV
+            var aHBO          = new AnswerOptionModel { Answer = "HBO" };
+            var aNetflix      = new AnswerOptionModel { Answer = "Netflix" };
+            var aAmazonPrime  = new AnswerOptionModel { Answer = "Amazon Prime" };
+            var aHulu         = new AnswerOptionModel { Answer = "Hulu" };
+
+            // Hav & Oceaner
+            var aStillahavet     = new AnswerOptionModel { Answer = "Stilla havet" };
+            var aAtlanten        = new AnswerOptionModel { Answer = "Atlanten" };
+            var aIndiskaOceanen  = new AnswerOptionModel { Answer = "Indiska oceanen" };
+            var aArktiskaOceanen = new AnswerOptionModel { Answer = "Arktiska oceanen" };
+            var a71pct = new AnswerOptionModel { Answer = "71%" };
+            var a50pct = new AnswerOptionModel { Answer = "50%" };
+            var a60pct = new AnswerOptionModel { Answer = "60%" };
+            var a80pct = new AnswerOptionModel { Answer = "80%" };
+
+            // Mobil & Appar
+            var aSamsung = new AnswerOptionModel { Answer = "Samsung" };
+            var a2005 = new AnswerOptionModel { Answer = "2005" };
+            var a2007 = new AnswerOptionModel { Answer = "2007" };
+            var a2008 = new AnswerOptionModel { Answer = "2008" };
+            var a2010 = new AnswerOptionModel { Answer = "2010" };
+
+            // Bakning
+            var aMjol      = new AnswerOptionModel { Answer = "Mjöl" };
+            var aSocker    = new AnswerOptionModel { Answer = "Socker" };
+            var aSalt      = new AnswerOptionModel { Answer = "Salt" };
+            var aJast      = new AnswerOptionModel { Answer = "Jäst" };
+            var aBakpulver = new AnswerOptionModel { Answer = "Bakpulver" };
+            var aMaizena   = new AnswerOptionModel { Answer = "Majsstärkelse" };
+            var aVanilj    = new AnswerOptionModel { Answer = "Vaniljsocker" };
+
 
             // KATEGORIER & SUBKATEGORIER
 
@@ -224,6 +301,16 @@ namespace Cyberquiz.DAL.Data
             var subInternet       = new SubCategoryModel { Name = "Internet" };
             var subMatlagning     = new SubCategoryModel { Name = "Matlagning" };
             var subDrycker        = new SubCategoryModel { Name = "Drycker" };
+            var subSkandinavien   = new SubCategoryModel { Name = "Skandinavien" };
+            var subMedeltiden     = new SubCategoryModel { Name = "Medeltiden" };
+            var subBiologi        = new SubCategoryModel { Name = "Biologi" };
+            var subTennis         = new SubCategoryModel { Name = "Tennis" };
+            var subJazz           = new SubCategoryModel { Name = "Jazz" };
+            var subSerier         = new SubCategoryModel { Name = "Serier & TV" };
+            var subAlgebra        = new SubCategoryModel { Name = "Algebra" };
+            var subHav            = new SubCategoryModel { Name = "Hav & Oceaner" };
+            var subMobil          = new SubCategoryModel { Name = "Mobil & Appar" };
+            var subBakning        = new SubCategoryModel { Name = "Bakning" };
 
             subEuropa.Category     = catGeografi;
             subVarlden.Category    = catGeografi;
@@ -245,6 +332,16 @@ namespace Cyberquiz.DAL.Data
             subInternet.Category   = catTeknik;
             subMatlagning.Category = catMatDryck;
             subDrycker.Category    = catMatDryck;
+            subSkandinavien.Category = catGeografi;
+            subMedeltiden.Category   = catHistoria;
+            subBiologi.Category      = catVetenskap;
+            subTennis.Category       = catSport;
+            subJazz.Category         = catMusik;
+            subSerier.Category       = catFilmTV;
+            subAlgebra.Category      = catMatematik;
+            subHav.Category          = catNatur;
+            subMobil.Category        = catTeknik;
+            subBakning.Category      = catMatDryck;
 
             // FRÅGOR
 
@@ -252,286 +349,426 @@ namespace Cyberquiz.DAL.Data
             var qFrankrikesHuvudstad = new QuestionModel
             {
                 Question = "Vad är huvudstaden i Frankrike?",
-                CategoryId = new List<CategoryModel> { catGeografi },
-                SubCategoryId = new List<SubCategoryModel> { subEuropa }
+                Category = catGeografi,
+                SubCategory = subEuropa
             };
             var qSverigesHuvudstad = new QuestionModel
             {
                 Question = "Vad är huvudstaden i Sverige?",
-                CategoryId = new List<CategoryModel> { catGeografi },
-                SubCategoryId = new List<SubCategoryModel> { subEuropa }
+                Category = catGeografi,
+                SubCategory = subEuropa
             };
             var qFlestInvanareEuropa = new QuestionModel
             {
                 Question = "Vilket land har flest invånare i Europa?",
-                CategoryId = new List<CategoryModel> { catGeografi },
-                SubCategoryId = new List<SubCategoryModel> { subEuropa }
+                Category = catGeografi,
+                SubCategory = subEuropa
             };
 
             // --- Geografi: Världen ---
             var qStorstaLandYta = new QuestionModel
             {
                 Question = "Vilket är världens största land till ytan?",
-                CategoryId = new List<CategoryModel> { catGeografi },
-                SubCategoryId = new List<SubCategoryModel> { subVarlden }
+                Category = catGeografi,
+                SubCategory = subVarlden
             };
             var qLangstaFlod = new QuestionModel
             {
-                Question = "Vilket är världens längsta flod?",
-                CategoryId = new List<CategoryModel> { catGeografi },
-                SubCategoryId = new List<SubCategoryModel> { subVarlden }
+                Question = "Vilken är världens längsta flod?",
+                Category = catGeografi,
+                SubCategory = subVarlden
             };
 
             // --- Historia: Antiken ---
             var qAntikRomLand = new QuestionModel
             {
                 Question = "I vilket land låg det antika Rom?",
-                CategoryId = new List<CategoryModel> { catHistoria },
-                SubCategoryId = new List<SubCategoryModel> { subAntiken }
+                Category = catHistoria,
+                SubCategory = subAntiken
             };
             var qVastromerriketFall = new QuestionModel
             {
                 Question = "Vilket år föll Västromerska riket?",
-                CategoryId = new List<CategoryModel> { catHistoria },
-                SubCategoryId = new List<SubCategoryModel> { subAntiken }
+                Category = catHistoria,
+                SubCategory = subAntiken
             };
 
             // --- Historia: Modern Historia ---
             var qAndraVK = new QuestionModel
             {
                 Question = "Vilket år slutade andra världskriget?",
-                CategoryId = new List<CategoryModel> { catHistoria },
-                SubCategoryId = new List<SubCategoryModel> { subModernHistoria }
+                Category = catHistoria,
+                SubCategory = subModernHistoria
             };
             var qStoraNordiskaKriget = new QuestionModel
             {
                 Question = "Vem var Sveriges kung under stora nordiska kriget?",
-                CategoryId = new List<CategoryModel> { catHistoria },
-                SubCategoryId = new List<SubCategoryModel> { subModernHistoria }
+                Category = catHistoria,
+                SubCategory = subModernHistoria
             };
 
             // --- Vetenskap: Kemi ---
             var qVattenFormel = new QuestionModel
             {
                 Question = "Vad är den kemiska beteckningen för vatten?",
-                CategoryId = new List<CategoryModel> { catVetenskap },
-                SubCategoryId = new List<SubCategoryModel> { subKemi }
+                Category = catVetenskap,
+                SubCategory = subKemi
             };
             var qAtomNummer1 = new QuestionModel
             {
                 Question = "Vilket grundämne har atomnummer 1?",
-                CategoryId = new List<CategoryModel> { catVetenskap },
-                SubCategoryId = new List<SubCategoryModel> { subKemi }
+                Category = catVetenskap,
+                SubCategory = subKemi
             };
 
             // --- Vetenskap: Fysik ---
             var qLjusets = new QuestionModel
             {
                 Question = "Ungefär hur snabbt rör sig ljus i vakuum?",
-                CategoryId = new List<CategoryModel> { catVetenskap },
-                SubCategoryId = new List<SubCategoryModel> { subFysik }
+                Category = catVetenskap,
+                SubCategory = subFysik
             };
             var qGravitationslagen = new QuestionModel
             {
                 Question = "Vem formulerade gravitationslagen?",
-                CategoryId = new List<CategoryModel> { catVetenskap },
-                SubCategoryId = new List<SubCategoryModel> { subFysik }
+                Category = catVetenskap,
+                SubCategory = subFysik
             };
 
             // --- Sport: Fotboll ---
             var qFotbollsspelare = new QuestionModel
             {
                 Question = "Hur många spelare har ett fotbollslag på planen?",
-                CategoryId = new List<CategoryModel> { catSport },
-                SubCategoryId = new List<SubCategoryModel> { subFotboll }
+                Category = catSport,
+                SubCategory = subFotboll
             };
             var qVMGuldFotboll = new QuestionModel
             {
                 Question = "Vilket land har vunnit flest VM-guld i fotboll?",
-                CategoryId = new List<CategoryModel> { catSport },
-                SubCategoryId = new List<SubCategoryModel> { subFotboll }
+                Category = catSport,
+                SubCategory = subFotboll
             };
 
             // --- Sport: OS ---
             var qForstaModernaOS = new QuestionModel
             {
                 Question = "Var hölls de första moderna olympiska spelen (1896)?",
-                CategoryId = new List<CategoryModel> { catSport },
-                SubCategoryId = new List<SubCategoryModel> { subOS }
+                Category = catSport,
+                SubCategory = subOS
             };
-            var qOSVartHurvangaar = new QuestionModel
+            var qOSIntervall = new QuestionModel
             {
-                Question = "Vart hur många år hålls de olympiska sommarspelen?",
-                CategoryId = new List<CategoryModel> { catSport },
-                SubCategoryId = new List<SubCategoryModel> { subOS }
+                Question = "Med hur många års mellanrum hålls de olympiska sommarspelen?",
+                Category = catSport,
+                SubCategory = subOS
             };
 
             // --- Musik: Klassisk ---
             var qFurElise = new QuestionModel
             {
                 Question = "Vem komponerade \"Für Elise\"?",
-                CategoryId = new List<CategoryModel> { catMusik },
-                SubCategoryId = new List<SubCategoryModel> { subKlassisk }
+                Category = catMusik,
+                SubCategory = subKlassisk
             };
             var qGitarrStrangar = new QuestionModel
             {
                 Question = "Hur många strängar har en standardgitarr?",
-                CategoryId = new List<CategoryModel> { catMusik },
-                SubCategoryId = new List<SubCategoryModel> { subKlassisk }
+                Category = catMusik,
+                SubCategory = subKlassisk
             };
 
             // --- Musik: Pop & Rock ---
             var qBohemianRhapsody = new QuestionModel
             {
                 Question = "Vilket band sjöng \"Bohemian Rhapsody\"?",
-                CategoryId = new List<CategoryModel> { catMusik },
-                SubCategoryId = new List<SubCategoryModel> { subPopRock }
+                Category = catMusik,
+                SubCategory = subPopRock
             };
             var qABBA = new QuestionModel
             {
                 Question = "Vilket år bildades ABBA?",
-                CategoryId = new List<CategoryModel> { catMusik },
-                SubCategoryId = new List<SubCategoryModel> { subPopRock }
+                Category = catMusik,
+                SubCategory = subPopRock
             };
 
             // --- Film & TV: Hollywood ---
             var qIronMan = new QuestionModel
             {
                 Question = "Vem spelar Iron Man i MCU?",
-                CategoryId = new List<CategoryModel> { catFilmTV },
-                SubCategoryId = new List<SubCategoryModel> { subHollywood }
+                Category = catFilmTV,
+                SubCategory = subHollywood
             };
             var qTitanicAr = new QuestionModel
             {
                 Question = "Vilket år hade filmen Titanic premiär?",
-                CategoryId = new List<CategoryModel> { catFilmTV },
-                SubCategoryId = new List<SubCategoryModel> { subHollywood }
+                Category = catFilmTV,
+                SubCategory = subHollywood
             };
 
             // --- Film & TV: Animation ---
             var qSpiritedAway = new QuestionModel
             {
                 Question = "Vilket land producerade animationsfilmen \"Spirited Away\"?",
-                CategoryId = new List<CategoryModel> { catFilmTV },
-                SubCategoryId = new List<SubCategoryModel> { subAnimation }
+                Category = catFilmTV,
+                SubCategory = subAnimation
             };
             var qLejonkungen = new QuestionModel
             {
                 Question = "Vilket studio skapade \"Lejonkungen\" (1994)?",
-                CategoryId = new List<CategoryModel> { catFilmTV },
-                SubCategoryId = new List<SubCategoryModel> { subAnimation }
+                Category = catFilmTV,
+                SubCategory = subAnimation
             };
 
             // --- Matematik: Aritmetik ---
             var qKvadratrot144 = new QuestionModel
             {
                 Question = "Vad är kvadratroten ur 144?",
-                CategoryId = new List<CategoryModel> { catMatematik },
-                SubCategoryId = new List<SubCategoryModel> { subAritmetik }
+                Category = catMatematik,
+                SubCategory = subAritmetik
             };
             var qHexagonSidor = new QuestionModel
             {
                 Question = "Hur många sidor har en hexagon?",
-                CategoryId = new List<CategoryModel> { catMatematik },
-                SubCategoryId = new List<SubCategoryModel> { subAritmetik }
+                Category = catMatematik,
+                SubCategory = subAritmetik
             };
 
             // --- Matematik: Geometri ---
             var qRatVinkel = new QuestionModel
             {
                 Question = "Hur många grader är en rät vinkel?",
-                CategoryId = new List<CategoryModel> { catMatematik },
-                SubCategoryId = new List<SubCategoryModel> { subGeometri }
+                Category = catMatematik,
+                SubCategory = subGeometri
             };
             var qPi = new QuestionModel
             {
                 Question = "Vad är talet pi avrundat till 2 decimaler?",
-                CategoryId = new List<CategoryModel> { catMatematik },
-                SubCategoryId = new List<SubCategoryModel> { subGeometri }
+                Category = catMatematik,
+                SubCategory = subGeometri
             };
 
             // --- Natur: Djur ---
             var qStorstaLanddjur = new QuestionModel
             {
                 Question = "Vilket är världens största landlevande djur?",
-                CategoryId = new List<CategoryModel> { catNatur },
-                SubCategoryId = new List<SubCategoryModel> { subDjur }
+                Category = catNatur,
+                SubCategory = subDjur
             };
             var qInsektBen = new QuestionModel
             {
                 Question = "Hur många ben har en insekt?",
-                CategoryId = new List<CategoryModel> { catNatur },
-                SubCategoryId = new List<SubCategoryModel> { subDjur }
+                Category = catNatur,
+                SubCategory = subDjur
             };
 
             // --- Natur: Växter ---
             var qEkollon = new QuestionModel
             {
                 Question = "Vilket träd producerar ekollon?",
-                CategoryId = new List<CategoryModel> { catNatur },
-                SubCategoryId = new List<SubCategoryModel> { subVaxter }
+                Category = catNatur,
+                SubCategory = subVaxter
             };
             var qFotosyntes = new QuestionModel
             {
                 Question = "Vad heter processen där växter omvandlar solljus till energi?",
-                CategoryId = new List<CategoryModel> { catNatur },
-                SubCategoryId = new List<SubCategoryModel> { subVaxter }
+                Category = catNatur,
+                SubCategory = subVaxter
             };
 
             // --- Teknik: Datorer ---
             var qCPU = new QuestionModel
             {
                 Question = "Vad står förkortningen CPU för?",
-                CategoryId = new List<CategoryModel> { catTeknik },
-                SubCategoryId = new List<SubCategoryModel> { subDatorer }
+                Category = catTeknik,
+                SubCategory = subDatorer
             };
             var qWindowsSkapare = new QuestionModel
             {
                 Question = "Vilket företag skapade operativsystemet Windows?",
-                CategoryId = new List<CategoryModel> { catTeknik },
-                SubCategoryId = new List<SubCategoryModel> { subDatorer }
+                Category = catTeknik,
+                SubCategory = subDatorer
             };
 
             // --- Teknik: Internet ---
             var qWWW = new QuestionModel
             {
                 Question = "Vad står WWW för?",
-                CategoryId = new List<CategoryModel> { catTeknik },
-                SubCategoryId = new List<SubCategoryModel> { subInternet }
+                Category = catTeknik,
+                SubCategory = subInternet
             };
             var qGoogleGrundat = new QuestionModel
             {
                 Question = "Vilket år grundades Google?",
-                CategoryId = new List<CategoryModel> { catTeknik },
-                SubCategoryId = new List<SubCategoryModel> { subInternet }
+                Category = catTeknik,
+                SubCategory = subInternet
             };
 
             // --- Mat & Dryck: Matlagning ---
             var qSushiUrsprung = new QuestionModel
             {
                 Question = "Vilket land kommer sushi ursprungligen från?",
-                CategoryId = new List<CategoryModel> { catMatDryck },
-                SubCategoryId = new List<SubCategoryModel> { subMatlagning }
+                Category = catMatDryck,
+                SubCategory = subMatlagning
             };
             var qGuacamoleIngrediens = new QuestionModel
             {
                 Question = "Vad är huvudingrediensen i guacamole?",
-                CategoryId = new List<CategoryModel> { catMatDryck },
-                SubCategoryId = new List<SubCategoryModel> { subMatlagning }
+                Category = catMatDryck,
+                SubCategory = subMatlagning
             };
 
             // --- Mat & Dryck: Drycker ---
             var qKaffeProducent = new QuestionModel
             {
                 Question = "Vilket land är världens största producent av kaffe?",
-                CategoryId = new List<CategoryModel> { catMatDryck },
-                SubCategoryId = new List<SubCategoryModel> { subDrycker }
+                Category = catMatDryck,
+                SubCategory = subDrycker
             };
             var qVinIngredienser = new QuestionModel
             {
                 Question = "Av vad tillverkas vin?",
-                CategoryId = new List<CategoryModel> { catMatDryck },
-                SubCategoryId = new List<SubCategoryModel> { subDrycker }
+                Category = catMatDryck,
+                SubCategory = subDrycker
+            };
+
+            // --- Geografi: Skandinavien ---
+            var qNorgesHuvudstad = new QuestionModel
+            {
+                Question = "Vad heter Norges huvudstad?",
+                Category = catGeografi,
+                SubCategory = subSkandinavien
+            };
+            var qDanmarksHuvudstad = new QuestionModel
+            {
+                Question = "Vad heter Danmarks huvudstad?",
+                Category = catGeografi,
+                SubCategory = subSkandinavien
+            };
+
+            // --- Historia: Medeltiden ---
+            var qMagnaCarta = new QuestionModel
+            {
+                Question = "Vilket år undertecknades Magna Carta?",
+                Category = catHistoria,
+                SubCategory = subMedeltiden
+            };
+            var qKonstantinopel = new QuestionModel
+            {
+                Question = "Vilket år föll Konstantinopel till osmanska riket?",
+                Category = catHistoria,
+                SubCategory = subMedeltiden
+            };
+
+            // --- Vetenskap: Biologi ---
+            var qKromosompar = new QuestionModel
+            {
+                Question = "Hur många kromosompar har en frisk människa?",
+                Category = catVetenskap,
+                SubCategory = subBiologi
+            };
+            var qMinstaEnhet = new QuestionModel
+            {
+                Question = "Vad kallas den minsta enheten i en levande organism?",
+                Category = catVetenskap,
+                SubCategory = subBiologi
+            };
+
+            // --- Sport: Tennis ---
+            var qTennisNollPoang = new QuestionModel
+            {
+                Question = "Vad kallas noll poäng i tennis?",
+                Category = catSport,
+                SubCategory = subTennis
+            };
+            var qTennisGrus = new QuestionModel
+            {
+                Question = "Vilket är det mest prestigefyllda tennisturneringen på grus?",
+                Category = catSport,
+                SubCategory = subTennis
+            };
+
+            // --- Musik: Jazz ---
+            var qJazzUrsprung = new QuestionModel
+            {
+                Question = "I vilket land uppstod jazzmusiken?",
+                Category = catMusik,
+                SubCategory = subJazz
+            };
+            var qMilesDavis = new QuestionModel
+            {
+                Question = "Vilket instrument är Miles Davis känd för att spela?",
+                Category = catMusik,
+                SubCategory = subJazz
+            };
+
+            // --- Film & TV: Serier ---
+            var qGameOfThrones = new QuestionModel
+            {
+                Question = "Vilket nätverk producerade Game of Thrones?",
+                Category = catFilmTV,
+                SubCategory = subSerier
+            };
+            var qSquidGame = new QuestionModel
+            {
+                Question = "Vilket land producerade serien 'Squid Game'?",
+                Category = catFilmTV,
+                SubCategory = subSerier
+            };
+
+            // --- Matematik: Algebra ---
+            var qAlgebra2x = new QuestionModel
+            {
+                Question = "Vad är x om 2x + 4 = 10?",
+                Category = catMatematik,
+                SubCategory = subAlgebra
+            };
+            var qAndragradsekvation = new QuestionModel
+            {
+                Question = "Hur många lösningar kan en andragradsekvation ha som mest?",
+                Category = catMatematik,
+                SubCategory = subAlgebra
+            };
+
+            // --- Natur: Hav & Oceaner ---
+            var qStorstaOcean = new QuestionModel
+            {
+                Question = "Vilket är världens största ocean?",
+                Category = catNatur,
+                SubCategory = subHav
+            };
+            var qJordensVatten = new QuestionModel
+            {
+                Question = "Hur stor del av jordens yta täcks av vatten (ungefär)?",
+                Category = catNatur,
+                SubCategory = subHav
+            };
+
+            // --- Teknik: Mobil & Appar ---
+            var qFoerstaIphone = new QuestionModel
+            {
+                Question = "Vilket år lanserades den första iPhone?",
+                Category = catTeknik,
+                SubCategory = subMobil
+            };
+            var qIphoneTillverkare = new QuestionModel
+            {
+                Question = "Vilket företag tillverkar iPhone?",
+                Category = catTeknik,
+                SubCategory = subMobil
+            };
+
+            // --- Mat & Dryck: Bakning ---
+            var qBrodJaesning = new QuestionModel
+            {
+                Question = "Vilken ingrediens gör att bröddeg jäser?",
+                Category = catMatDryck,
+                SubCategory = subBakning
+            };
+            var qBakpulver = new QuestionModel
+            {
+                Question = "Vad är det vanligaste pulvret för att få kakor att jäsa utan jäst?",
+                Category = catMatDryck,
+                SubCategory = subBakning
             };
 
             // FRÅGA ↔ SVARSALTERNATIV  (IsCorrect = true på exakt ett svar/fråga)
@@ -640,10 +877,10 @@ namespace Cyberquiz.DAL.Data
 
                 // Vart hur många år hålls de olympiska sommarspelen?
                 // a4 återanvänds i gitarr/insekt!
-                new QuestionAnswerOptionModel { Question = qOSVartHurvangaar, AnswerOption = a4, IsCorrect = true  },
-                new QuestionAnswerOptionModel { Question = qOSVartHurvangaar, AnswerOption = a2, IsCorrect = false },
-                new QuestionAnswerOptionModel { Question = qOSVartHurvangaar, AnswerOption = a3, IsCorrect = false },
-                new QuestionAnswerOptionModel { Question = qOSVartHurvangaar, AnswerOption = a5, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qOSIntervall, AnswerOption = a4, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qOSIntervall, AnswerOption = a2, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qOSIntervall, AnswerOption = a3, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qOSIntervall, AnswerOption = a5, IsCorrect = false },
 
                 // Vem komponerade "Für Elise"?
                 new QuestionAnswerOptionModel { Question = qFurElise, AnswerOption = aBeethoven, IsCorrect = true  },
@@ -788,7 +1025,127 @@ namespace Cyberquiz.DAL.Data
                 new QuestionAnswerOptionModel { Question = qVinIngredienser, AnswerOption = aDruvor,  IsCorrect = true  },
                 new QuestionAnswerOptionModel { Question = qVinIngredienser, AnswerOption = aApplen,  IsCorrect = false },
                 new QuestionAnswerOptionModel { Question = qVinIngredienser, AnswerOption = aParon,   IsCorrect = false },
-                new QuestionAnswerOptionModel { Question = qVinIngredienser, AnswerOption = aPlommon, IsCorrect = false }
+                new QuestionAnswerOptionModel { Question = qVinIngredienser, AnswerOption = aPlommon, IsCorrect = false },
+
+                // Vad heter Norges huvudstad?
+                new QuestionAnswerOptionModel { Question = qNorgesHuvudstad, AnswerOption = aOslo,       IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qNorgesHuvudstad, AnswerOption = aStockholm,  IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qNorgesHuvudstad, AnswerOption = aKopenhagen, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qNorgesHuvudstad, AnswerOption = aBerlin,     IsCorrect = false },
+
+                // Vad heter Danmarks huvudstad?
+                new QuestionAnswerOptionModel { Question = qDanmarksHuvudstad, AnswerOption = aKopenhagen, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qDanmarksHuvudstad, AnswerOption = aOslo,       IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qDanmarksHuvudstad, AnswerOption = aStockholm,  IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qDanmarksHuvudstad, AnswerOption = aHelsinki,   IsCorrect = false },
+
+                // Vilket år undertecknades Magna Carta?
+                new QuestionAnswerOptionModel { Question = qMagnaCarta, AnswerOption = a1215, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qMagnaCarta, AnswerOption = a1066, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMagnaCarta, AnswerOption = a1348, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMagnaCarta, AnswerOption = a1453, IsCorrect = false },
+
+                // Vilket år föll Konstantinopel?
+                new QuestionAnswerOptionModel { Question = qKonstantinopel, AnswerOption = a1453, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qKonstantinopel, AnswerOption = a1389, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qKonstantinopel, AnswerOption = a1492, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qKonstantinopel, AnswerOption = a1500, IsCorrect = false },
+
+                // Hur många kromosompar har en frisk människa?
+                new QuestionAnswerOptionModel { Question = qKromosompar, AnswerOption = a23, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qKromosompar, AnswerOption = a22, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qKromosompar, AnswerOption = a24, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qKromosompar, AnswerOption = a46, IsCorrect = false },
+
+                // Vad kallas den minsta enheten i en levande organism?
+                new QuestionAnswerOptionModel { Question = qMinstaEnhet, AnswerOption = aCellen,    IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qMinstaEnhet, AnswerOption = aAtomen,    IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMinstaEnhet, AnswerOption = aMolekylen, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMinstaEnhet, AnswerOption = aVavnaden,  IsCorrect = false },
+
+                // Vad kallas noll poäng i tennis?
+                new QuestionAnswerOptionModel { Question = qTennisNollPoang, AnswerOption = aLove, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qTennisNollPoang, AnswerOption = aZero, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qTennisNollPoang, AnswerOption = aNil,  IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qTennisNollPoang, AnswerOption = aNoll, IsCorrect = false },
+
+                // Vilket är det mest prestigefyllda tennisturneringen på grus?
+                new QuestionAnswerOptionModel { Question = qTennisGrus, AnswerOption = aRolandGarros,   IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qTennisGrus, AnswerOption = aWimbledon,      IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qTennisGrus, AnswerOption = aUSOpen,         IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qTennisGrus, AnswerOption = aAustralianOpen, IsCorrect = false },
+
+                // I vilket land uppstod jazzmusiken?
+                new QuestionAnswerOptionModel { Question = qJazzUrsprung, AnswerOption = aUSA,       IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qJazzUrsprung, AnswerOption = aFrankrike, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qJazzUrsprung, AnswerOption = aKina,      IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qJazzUrsprung, AnswerOption = aBrasilien, IsCorrect = false },
+
+                // Vilket instrument är Miles Davis känd för att spela?
+                new QuestionAnswerOptionModel { Question = qMilesDavis, AnswerOption = aTrumpet,  IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qMilesDavis, AnswerOption = aSaxofon,  IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMilesDavis, AnswerOption = aPiano,    IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qMilesDavis, AnswerOption = aKlarinet, IsCorrect = false },
+
+                // Vilket nätverk producerade Game of Thrones?
+                new QuestionAnswerOptionModel { Question = qGameOfThrones, AnswerOption = aHBO,         IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qGameOfThrones, AnswerOption = aNetflix,     IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qGameOfThrones, AnswerOption = aAmazonPrime, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qGameOfThrones, AnswerOption = aHulu,        IsCorrect = false },
+
+                // Vilket land producerade 'Squid Game'?
+                new QuestionAnswerOptionModel { Question = qSquidGame, AnswerOption = aSydkorea, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qSquidGame, AnswerOption = aJapan,    IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qSquidGame, AnswerOption = aKina,     IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qSquidGame, AnswerOption = aUSA,      IsCorrect = false },
+
+                // Vad är x om 2x + 4 = 10?
+                new QuestionAnswerOptionModel { Question = qAlgebra2x, AnswerOption = a3, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qAlgebra2x, AnswerOption = a2, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qAlgebra2x, AnswerOption = a4, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qAlgebra2x, AnswerOption = a5, IsCorrect = false },
+
+                // Hur många lösningar kan en andragradsekvation ha som mest?
+                new QuestionAnswerOptionModel { Question = qAndragradsekvation, AnswerOption = a2, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qAndragradsekvation, AnswerOption = a1, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qAndragradsekvation, AnswerOption = a3, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qAndragradsekvation, AnswerOption = a4, IsCorrect = false },
+
+                // Vilket är världens största ocean?
+                new QuestionAnswerOptionModel { Question = qStorstaOcean, AnswerOption = aStillahavet,     IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qStorstaOcean, AnswerOption = aAtlanten,        IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qStorstaOcean, AnswerOption = aIndiskaOceanen,  IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qStorstaOcean, AnswerOption = aArktiskaOceanen, IsCorrect = false },
+
+                // Hur stor del av jordens yta täcks av vatten?
+                new QuestionAnswerOptionModel { Question = qJordensVatten, AnswerOption = a71pct, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qJordensVatten, AnswerOption = a50pct, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qJordensVatten, AnswerOption = a60pct, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qJordensVatten, AnswerOption = a80pct, IsCorrect = false },
+
+                // Vilket år lanserades den första iPhone?
+                new QuestionAnswerOptionModel { Question = qFoerstaIphone, AnswerOption = a2007, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qFoerstaIphone, AnswerOption = a2005, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qFoerstaIphone, AnswerOption = a2008, IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qFoerstaIphone, AnswerOption = a2010, IsCorrect = false },
+
+                // Vilket företag tillverkar iPhone?
+                new QuestionAnswerOptionModel { Question = qIphoneTillverkare, AnswerOption = aApple,     IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qIphoneTillverkare, AnswerOption = aSamsung,   IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qIphoneTillverkare, AnswerOption = aGoogle,    IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qIphoneTillverkare, AnswerOption = aMicrosoft, IsCorrect = false },
+
+                // Vilken ingrediens gör att bröddeg jäser?
+                new QuestionAnswerOptionModel { Question = qBrodJaesning, AnswerOption = aJast,   IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qBrodJaesning, AnswerOption = aMjol,   IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qBrodJaesning, AnswerOption = aSalt,   IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qBrodJaesning, AnswerOption = aSocker, IsCorrect = false },
+
+                // Vad är det vanligaste pulvret för att få kakor att jäsa utan jäst?
+                new QuestionAnswerOptionModel { Question = qBakpulver, AnswerOption = aBakpulver, IsCorrect = true  },
+                new QuestionAnswerOptionModel { Question = qBakpulver, AnswerOption = aMaizena,   IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qBakpulver, AnswerOption = aVanilj,    IsCorrect = false },
+                new QuestionAnswerOptionModel { Question = qBakpulver, AnswerOption = aSalt,      IsCorrect = false }
             );
 
             // QUIZAR
@@ -809,6 +1166,7 @@ namespace Cyberquiz.DAL.Data
             {
                 Name = "Geografiquiz",
                 Description = "Hur bra kan du din geografi?",
+                SubCategory = subEuropa,
                 Questions = new List<QuestionModel>
                 {
                     qFrankrikesHuvudstad, qSverigesHuvudstad,
@@ -820,6 +1178,7 @@ namespace Cyberquiz.DAL.Data
             {
                 Name = "Historiaquiz",
                 Description = "Testa dina historiekunskaper!",
+                SubCategory = subAntiken,
                 Questions = new List<QuestionModel>
                 {
                     qAntikRomLand, qVastromerriketFall,
@@ -831,6 +1190,7 @@ namespace Cyberquiz.DAL.Data
             {
                 Name = "Vetenskapsquiz",
                 Description = "Kemi, fysik och naturvetenskap!",
+                SubCategory = subKemi,
                 Questions = new List<QuestionModel>
                 {
                     qVattenFormel, qAtomNummer1,
