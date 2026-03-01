@@ -1,5 +1,61 @@
-﻿<h3>Quiz</h3>
+﻿@page "/quiz/{SubCategoryId:int}"
+@using Cyberquiz.Shared.DTOs
+@using Cyberquiz.UI.Services
+@inject ApiService ApiService
+@inject NavigationManager Nav
+
+<h3>Quiz</h3>
 
 @code {
+    [Parameter]
+    public int SubCategoryId { get; set; }
+
+    private QuestionDto? _question;
+    private int? _selectedOptionId;
+    private bool _answered;
+    private string _msg;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNext();
+    }
+
+    private async Task LoadNext()
+    {
+        _question = await ApiService.GetNextQuestionAsync(SubCategoryId);
+        _selectedOptionId = 0;
+        _answered = false;
+        _msg = string.Empty;
+
+        if (_question == null)
+        {
+            Nav.NavigateTo("/categories");
+        }
+    }
+
+    private Task OnSelectedChanged(int id) 
+    {
+        _selectedOptionId = id;
+        return Task.CompletedTask;
+    }
+
+    private async Task SubmitAnswer()
+    {
+        if(_question == null || !_selectedOptionId.HasValue)
+            return;
+    
+        // var ok = await ApiService.SubmitAnswerAsync(new UserAnswerDto
+        // {
+        //     // UserName = User.Identity?.Name ?? "Unknown",
+        //     QuestionId = _question.Id,
+        //     AnswerOptionId = _selectedOptionId.Value,
+        //     IsCorrect = false,
+        //     AnsweredAt = DateTime.UtcNow
+        // });
+
+        _msg = ok ? "Sparat" : "inte sparat";
+
+        _answered = true;
+    }
 
 }
