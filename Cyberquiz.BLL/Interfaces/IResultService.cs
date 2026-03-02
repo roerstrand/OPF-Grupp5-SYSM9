@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    internal interface IResultService // Interface för kontrakt med Service
+    public interface IResultService // Interface för kontrakt med Service
     {
+        Task<bool> SubmitAnswerAsync(string userId, int questionId, int selectedOptionId);
     }
 }

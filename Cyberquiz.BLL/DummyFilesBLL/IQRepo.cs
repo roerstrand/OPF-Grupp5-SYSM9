@@ -7,6 +7,7 @@ namespace Cyberquiz.BLL.DummyFilesBLL
 {
     public interface IQRepo
     {
+        Task<List<Question>> GetBySubCategoryIdAsync(int subCategoryId);
         Task<Question?> GetQByIdAsync(int id);
         Task<List<Question>> GetQsBySubCategoryIdAsync(int subCategoryId);
         Task GetQsBySubCatIdAsync(int subCatId);

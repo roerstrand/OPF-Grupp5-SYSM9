@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using Cyberquiz.Shared.DTOs;
+using Cyberquiz.Shared.DTOs.Progress;
 
 namespace Cyberquiz.BLL.Interfaces
 {
-    public interface IQuizService // Interface för kontrakt med Service
+    public interface IQuizService
     {
-        //Task<QuizDto> StartQuizAsync(int subCategoryId, string userId);
-        //Task<QuizResultDto> SubmitAnswerAsync(SubmitAnswerDto dto, string userId);
-        //Task SaveFinalResultAsync(FinalResultDto dto, string userId);
+        Task<List<QuestionDto>> GetQuestionsBySubCategoryAsync(int subCategoryId, string userId);
+        Task<QuizDto> StartQuizAsync(int subCategoryId, string userId);
+        Task<SubmitResponseDto> SubmitAnswerRequestAsync(string userId, int questionId, int selectedOptionId);
     }
 }
