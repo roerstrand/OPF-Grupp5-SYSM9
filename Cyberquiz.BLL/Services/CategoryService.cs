@@ -4,7 +4,7 @@ using static Cyberquiz.BLL.DummyFilesBLL.DummyClassCollection;
 
 namespace Cyberquiz.BLL.Services
 {
-    // Skapa kategoriöversikt (för UI)
+    // Skapa kategoriöversikt (att skicka till UI )
     public class CategoryService : ICategoryService // Serviceklass implementerar Interface
     {
         // Använder ICategoryRepository för att hämta kategorier
