@@ -7,10 +7,11 @@
         @* <p class="card-text">@Category.Description</p> *@
     </div>
     <div>
-        <button class="btn btn-primary">
+        @* <button class="btn btn-primary" @onclick="HandleClick">
             Välj kategori
-        </button>
+        </button> *@
     </div>
+    <p>@Category.CompletedSubCategories / @Category.TotalSubCategories</p>
 </div>
 
 @code {

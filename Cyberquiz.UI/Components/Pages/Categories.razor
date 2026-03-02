@@ -6,10 +6,22 @@
 <h3>Categories</h3>
 
 <h2>Välj en kategori</h2>
-<CategoryList Categories="categories" OnCategorySelected="GoToSubCategory" />
+
+@if (categories == null)
+{
+    <p>Loading...</p>
+}
+else if (categories.Count == 0)
+{
+    <p>No categories found.</p>
+}
+else
+{
+    <CategoryList Categories="categories" OnCategorySelected="GoToSubCategory" />
+}
 
 @code {
-    private List<CategoryDto> categories;
+    private List<CategoryDto>? categories;
 
     protected override async Task OnInitializedAsync()
     {
@@ -18,7 +30,7 @@
 
     private void GoToSubCategory(int categoryId)
     {
-        Nav.NavigateTo($"/categories/{categoryId}/subcategories");
+        Nav.NavigateTo($"/categories/{categoryId}/subcategories"); // SubCategory
     }
 
 }

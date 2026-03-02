@@ -12,5 +12,7 @@ namespace Cyberquiz.Shared.DTOs
         public int Order { get; set; }
         public bool IsLocked { get; set; }
 
+        public bool IsCompleted { get; set; } //Visar om SubCategoryn är avklarad eller inte
+
     }
 }

@@ -1,5 +1,197 @@
-﻿<h3>Quiz</h3>
+﻿@page "/quiz/{SubCategoryId:int}"
+@using Cyberquiz.Shared.DTOs
+@using Cyberquiz.Shared.DTOs.Progress
+@using Cyberquiz.UI.Components.Pages.Components
+@using Cyberquiz.UI.Services
+@inject ApiService ApiService
 
-@code {
 
+<h3>Quiz</h3>
+
+@if(question == null)
+{
+    <p>Loading...</p>
 }
+else
+{
+    <div>
+        <p><strong>@question.Question</strong></p>
+        <div class="answers-grid">
+            @foreach (var option in question.AnswerOptions)
+            {
+                var id = $"q{question.Id}_opt{option.Id}";
+                var css = GetOptionClass(option.Id);
+
+                <label class="answer-card @css @(answered ? "disabled" : "")" for="@id">
+                    <input type="radio"
+                           id="@id"
+                           name="answer"
+                           value="@option.Id"
+                           checked="@(selectedAnswerId == option.Id)"
+                           @onchange="() => selectedAnswerId = option.Id"
+                           disabled="@answered" />
+
+                    <span class="answer-text">@option.Answer</span>
+                </label>
+                @* <div>
+                <input type="radio" id="@option.Id" name="answer" value="@option.Id" @onchange="() => selectedAnswerId = option.Id" disabled="@answered" />
+                <p>@option.Answer</p>
+            </div> *@
+            }
+        </div>
+        
+
+        <div>
+            <button class="btn btn-primary" disabled="@(!selectedAnswerId.HasValue || answered)" @onclick="SubmitAnswer">
+                Svara
+            </button>
+            <button class="btn btn-secondary" disabled="@(!answered)" @onclick="NextQuestion">
+                Nästa
+            </button>
+        </div>
+
+
+        @if(result != null)
+        {
+            <div class="mt-3">
+                @if(result.IsCorrect)
+                {
+                    <div class="alert alert-success">
+                        <p>Rätt svar!</p>
+                        
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <p>Fel svar. Rätt svar var: @result.CorrectAnswerOptionId</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+<style>
+    .answers-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .answer-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 12px 14px;
+        background: white;
+        cursor: pointer;
+        user-select: none;
+        transition: border-color 0.15s, transform 0.05s;
+    }
+
+    .answer-card:hover {
+        border-color: #7c3aed;
+        transform: translateY(-1px);
+    }
+
+    .answer-text {
+        font-weight: 600;
+    }
+
+    .answer-card.selected {
+        border-color: #7c3aed;
+        background: #f3f0ff;
+    }
+
+    .answer-card.correct {
+        border-color: #16a34a;
+        background: #dcfce7;
+    }
+
+    .answer-card.incorrect {
+        border-color: #dc2626;
+        background: #fee2e2;
+    }
+
+    .answer-card.disabled {
+        cursor: not-allowed;
+        opacity: 0.95;
+    }
+</style>
+
+
+
+@code{
+    [Parameter]
+    public int SubCategoryId { get; set; }
+
+    private QuestionDto? question;
+    private int? selectedAnswerId;
+    private bool answered;
+    private SubmitResponseDto? result;
+
+    protected override async Task OnParametersSetAsync() 
+    {
+        await LoadQuestion();
+    }
+
+    private async Task LoadQuestion()
+    {
+        question = await ApiService.GetNextQuestionAsync(SubCategoryId);
+        selectedAnswerId = null;
+        answered = false;
+        result = null;
+    }
+
+    private async Task SubmitAnswer()
+    {
+        if (question == null || !selectedAnswerId.HasValue) return;
+
+        var res = await ApiService.SubmitAnswerWithFeedbackAsync(new SubmitAnswerRequestDto
+        {
+            SubCategoryId = SubCategoryId,
+            QuestionId = question.Id,
+            AnswerOptionId = selectedAnswerId.Value
+        });
+
+        if (res == null)
+        {
+            // Hantera fel
+            return;
+        }
+        result = res;
+        answered = true;
+    }
+
+    private async Task NextQuestion()
+    {
+        await LoadQuestion();
+    }
+
+    private string GetOptionClass(int optionId)
+    {
+        // Innan svar
+        if (result is null)
+        {
+            if (selectedAnswerId.HasValue && selectedAnswerId.Value == optionId)
+                return "selected";
+
+            return "";
+        }
+
+        // Efter svar: rätt svar grönt
+        if (optionId == result.CorrectAnswerOptionId)
+            return "correct";
+
+        // Om fel: markera valt rött
+        if (!result.IsCorrect && selectedAnswerId.HasValue && optionId == selectedAnswerId.Value)
+            return "incorrect";
+
+        return "";
+    }
+}
+
+

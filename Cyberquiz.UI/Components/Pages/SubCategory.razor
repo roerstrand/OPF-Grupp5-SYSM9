@@ -1,5 +1,36 @@
-﻿<h3>SubCategory</h3>
+﻿@page "/categories/{CategoryId:int}/subcategories"
+@using Cyberquiz.Shared.DTOs
+@using Cyberquiz.UI.Services
+@inject ApiService ApiService
+@inject NavigationManager Nav
+
+<h3>SubCategory</h3>
+
+@if (subCategories == null)
+{
+    <p>Loading...</p>
+}
+else if (subCategories.Count == 0)
+{
+    <p>No subcategories found.</p>
+}
+else
+{
+    <SubCategoryList SubCategories="subCategories" OnSubCategorySelected="StartQuiz" />
+}
 
 @code {
+    [Parameter]
+    public int CategoryId { get; set; }
+    private List<SubCategoryDto>? subCategories;
 
+    protected override async Task OnParametersSetAsync() 
+    {
+        subCategories = await ApiService.GetSubCategoiesByCategoryIdAsync(CategoryId);
+    }
+
+    private void StartQuiz(int subCategoryId)
+    {
+        Nav.NavigateTo($"/quiz/{subCategoryId}"); //islocked
+    }
 }
