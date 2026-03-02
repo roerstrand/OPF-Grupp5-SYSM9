@@ -4,6 +4,7 @@ using Cyberquiz.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cyberquiz.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260301132257_AddSubCategoryToQuizAndProgress")]
+    partial class AddSubCategoryToQuizAndProgress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace Cyberquiz.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CategoryModelQuestionModel", b =>
+                {
+                    b.Property<int>("CategoryIdId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionIdId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryIdId", "QuestionIdId");
+
+                    b.HasIndex("QuestionIdId");
+
+                    b.ToTable("CategoryModelQuestionModel");
+                });
 
             modelBuilder.Entity("Cyberquiz.DAL.Models.AnswerOptionModel", b =>
                 {
@@ -82,21 +100,11 @@ namespace Cyberquiz.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Questions");
                 });
@@ -196,9 +204,6 @@ namespace Cyberquiz.DAL.Migrations
                     b.Property<DateTime>("CompletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
@@ -234,6 +239,36 @@ namespace Cyberquiz.DAL.Migrations
                     b.ToTable("QuestionModelQuizModel");
                 });
 
+            modelBuilder.Entity("QuestionModelSubCategoryModel", b =>
+                {
+                    b.Property<int>("QuestionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubCategoryIdId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuestionsId", "SubCategoryIdId");
+
+                    b.HasIndex("SubCategoryIdId");
+
+                    b.ToTable("QuestionModelSubCategoryModel");
+                });
+
+            modelBuilder.Entity("CategoryModelQuestionModel", b =>
+                {
+                    b.HasOne("Cyberquiz.DAL.Models.CategoryModel", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cyberquiz.DAL.Models.QuestionModel", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cyberquiz.DAL.Models.QuestionAnswerOptionModel", b =>
                 {
                     b.HasOne("Cyberquiz.DAL.Models.AnswerOptionModel", "AnswerOption")
@@ -253,25 +288,6 @@ namespace Cyberquiz.DAL.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Cyberquiz.DAL.Models.QuestionModel", b =>
-                {
-                    b.HasOne("Cyberquiz.DAL.Models.CategoryModel", "Category")
-                        .WithMany("Questions")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Cyberquiz.DAL.Models.SubCategoryModel", "SubCategory")
-                        .WithMany("Questions")
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("SubCategory");
-                });
-
             modelBuilder.Entity("Cyberquiz.DAL.Models.QuizModel", b =>
                 {
                     b.HasOne("Cyberquiz.DAL.Models.SubCategoryModel", "SubCategory")
@@ -284,7 +300,7 @@ namespace Cyberquiz.DAL.Migrations
             modelBuilder.Entity("Cyberquiz.DAL.Models.SubCategoryModel", b =>
                 {
                     b.HasOne("Cyberquiz.DAL.Models.CategoryModel", "Category")
-                        .WithMany("SubCategories")
+                        .WithMany("SubCategoryId")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -337,6 +353,21 @@ namespace Cyberquiz.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("QuestionModelSubCategoryModel", b =>
+                {
+                    b.HasOne("Cyberquiz.DAL.Models.QuestionModel", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cyberquiz.DAL.Models.SubCategoryModel", null)
+                        .WithMany()
+                        .HasForeignKey("SubCategoryIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Cyberquiz.DAL.Models.AnswerOptionModel", b =>
                 {
                     b.Navigation("QuestionAnswerOptions");
@@ -344,19 +375,12 @@ namespace Cyberquiz.DAL.Migrations
 
             modelBuilder.Entity("Cyberquiz.DAL.Models.CategoryModel", b =>
                 {
-                    b.Navigation("Questions");
-
-                    b.Navigation("SubCategories");
+                    b.Navigation("SubCategoryId");
                 });
 
             modelBuilder.Entity("Cyberquiz.DAL.Models.QuestionModel", b =>
                 {
                     b.Navigation("QuestionAnswerOptions");
-                });
-
-            modelBuilder.Entity("Cyberquiz.DAL.Models.SubCategoryModel", b =>
-                {
-                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }
