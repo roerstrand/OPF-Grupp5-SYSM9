@@ -1,5 +1,4 @@
-﻿using Cyberquiz.BLL.DummyFilesBLL;
-using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.DAL.Models;
 using Cyberquiz.DAL.Repositories;
 using Cyberquiz.Shared.DTOs;
@@ -21,11 +20,11 @@ namespace Cyberquiz.BLL.Services
     // Säkerställa att quiz får startas
     public class QuizService : IQuizService
     {
-        private readonly IQRepo _questionRepo;
+        private readonly QuestionRepository _questionRepo;
         private readonly IProgressService _progressService;
         private readonly IResultService _resultService;
 
-        public QuizService(IQRepo questionRepo, IProgressService progressService, IResultService resultService)
+        public QuizService(QuestionRepository questionRepo, IProgressService progressService, IResultService resultService)
         {
             _questionRepo = questionRepo;
             _progressService = progressService;
@@ -43,7 +42,7 @@ namespace Cyberquiz.BLL.Services
             }
 
             // Hämta frågor från repository
-            var questions = await _questionRepo.GetBySubCategoryIdAsync(subCategoryId);
+            var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
 
             // Slumpa ordning
             var shuffledQs = questions.OrderBy(q => Guid.NewGuid()).ToList();
@@ -67,7 +66,7 @@ namespace Cyberquiz.BLL.Services
             }).ToList();
         }
 
-        // Metod för att starta ett quiz
+        // Metod för att starta ett quiz - hämta frågor och svar via repository för att skicka till DTO
         public async Task<QuizDto> StartQuizAsync(int subCategoryId, string userId)
         {
             var questions = await GetQuestionsBySubCategoryAsync(subCategoryId, userId);

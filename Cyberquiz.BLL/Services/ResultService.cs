@@ -1,7 +1,7 @@
-﻿using Cyberquiz.BLL.DummyFilesBLL;
-using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.Shared.DTOs.Progress;
 using Cyberquiz.DAL.Models;
+using Cyberquiz.DAL.Interface;
 
 namespace Cyberquiz.BLL.Services
 {
@@ -13,21 +13,20 @@ namespace Cyberquiz.BLL.Services
     // Räkna procent
     public class ResultService : IResultService
     {
+        private readonly IQuestionRepository _questionRepo;
+        // Ytterligare ett repo för resultat?
+        private readonly IResultRepository _resultRepo;
 
-        private readonly IQRepo _questionRepo;
-        private readonly IUserResRepo _resultRepo;
-
-        public ResultService(IQRepo questionRepo, IUserResRepo resultRepo)
+        public ResultService(IQuestionRepository questionRepo, IResultRepository resultRepo) 
         {
             _questionRepo = questionRepo;
-            _resultRepo = resultRepo;
         }
 
         // Metod för att skicka in ett svar från användaren
         public async Task<bool> SubmitAnswerAsync(string userId, int questionId, int selectedOptionId)
         {
             // Hämta frågan med alla svarsalternativ
-            var question = await _questionRepo.GetQByIdAsync(questionId);
+            var question = await _questionRepo.GetBySubCategoryAsync(questionId);
 
             if (question == null)
             {
@@ -35,8 +34,7 @@ namespace Cyberquiz.BLL.Services
             }
 
             // Hitta rätt svar genom att kolla IsCorrect i QuestionAnswerOptions
-            var correctAnswer = question.QuestionAnswerOptions
-                .FirstOrDefault(qao => qao.IsCorrect);
+            var correctAnswer = question.QuestionAnswerOptions.FirstOrDefault(qao => qao.IsCorrect);
 
             if (correctAnswer == null)
             {
