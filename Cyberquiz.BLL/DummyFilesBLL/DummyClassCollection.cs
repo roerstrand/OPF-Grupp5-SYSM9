@@ -15,7 +15,16 @@ namespace Cyberquiz.BLL.DummyFilesBLL
             public object AnswerOption { get; internal set; }
         }
         public class AnswerOption { }
-        public class UserResult { }
+        public class CorrectAnswer 
+        {
+            public bool IsCorrect;
+        }
+        public class UserResult 
+        {
+            public string UserId { get; set; }
+            public int QuestionId { get; set; }
+            public bool IsCorrect { get; set; }
+        }
 
     }
 }
