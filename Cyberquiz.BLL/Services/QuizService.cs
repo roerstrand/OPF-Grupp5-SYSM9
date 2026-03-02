@@ -1,6 +1,8 @@
 ﻿using Cyberquiz.BLL.DummyFilesBLL;
 using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.DAL.Repositories;
+using Cyberquiz.Shared.DTOs;
+using Cyberquiz.Shared.DTOs.Progress;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Mono.TextTemplating;
@@ -14,38 +16,70 @@ namespace Cyberquiz.BLL.Services
     // Flödeslogik för att visa quiz för användaren
     // Starta quiz
     // Ta emot och validera svar
-    // Sammanställa resultat
+    // Kolla resultat
     // Säkerställa att quiz får startas
-    public class QuizService : IQuizService // Serviceklass implementerar Interface
+    public class QuizService : IQuizService
     {
-
-        // Fält
         private readonly IQRepo _questionRepo;
+        private readonly IProgressService _progressService;
+        private readonly IResultService _resultService;
 
-        // Konstruktor
-        public QuizService(IQRepo questionRepo)
+        public QuizService(IQRepo questionRepo, IProgressService progressService, IResultService resultService)
         {
             _questionRepo = questionRepo;
+            _progressService = progressService;
+            _resultService = resultService;
         }
-        // Metod för att hämta frågor baserat på underkategori
 
-        public async Task<List<Question>> GetQuestionsAsync(int subCategoryId)
+        // Metod för att hämta frågor med svarsalternativ för en subkategori
+        public async Task<List<QuestionDto>> GetQuestionsBySubCategoryAsync(int subCategoryId, string userId)
         {
-            return await _questionRepo.GetBySubCategoryIdAsync(subCategoryId);
+            // Kolla om användaren har tillgång till subkategorin
+            var isUnlocked = await _progressService.IsSubCategoryUnlockedAsync(userId, subCategoryId);
+            if (!isUnlocked)
+            {
+                throw new UnauthorizedAccessException("Subkategorin är inte upplåst");
+            }
+
+            // Hämta frågor från repository
+            var questions = await _questionRepo.GetBySubCategoryIdAsync(subCategoryId);
+
+            // Slumpa ordning (valfritt)
+            var shuffledQs = questions.OrderBy(q => Guid.NewGuid()).ToList();
+
+            // Mappa till DTO (utan att visa rätt svar)
+            return MapToQuestionDtos(shuffledQs);
         }
 
-        // KOMMANDE METODER
+        private List<QuestionDto> MapToQuestionDtos(List<Question> questions)
+        {
+            // TODO: Implementera korrekt mappning när Question-modellen är klar
+            return new List<QuestionDto>();
+        }
 
-        // StartQuizAsync
-        // Kolla via ProgressService om upplåst
-        // Hämta frågor
-        // Slumpa ordning(valfritt men bra)
-        // Mappa till QuizDto(utan IsCorrect)
+        // Metod för att starta ett quiz
+        public async Task<QuizDto> StartQuizAsync(int subCategoryId, string userId)
+        {
+            var questions = await GetQuestionsBySubCategoryAsync(subCategoryId, userId);
 
-        // SubmitAnswerAsync
-        // Kolla att frågan tillhör rätt subkategori
-        // Kolla att alternativet tillhör frågan
-        // Kolla om svar är rätt
-        // Returnera feedback
+            return new QuizDto
+            {
+                SubCategoryId = subCategoryId,
+                Questions = questions,
+                //TotalQuestions = questions.Count
+            };
+        }
+
+        // Metod för att skicka in ett svar
+        public async Task<SubmitResponseDto> SubmitAnswerRequestAsync(string userId, int questionId, int selectedOptionId)
+        {
+            // Spara via ResultService
+            var isCorrect = await _resultService.SubmitAnswerAsync(userId, questionId, selectedOptionId);
+
+            return new SubmitResponseDto
+            {
+                IsCorrect = isCorrect
+            };
+        }
     }
 }
