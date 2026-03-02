@@ -1,5 +1,4 @@
-﻿using Cyberquiz.BLL.DummyFilesBLL;
-using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.DAL.Interface;
 using Cyberquiz.DAL.Models;
 using Cyberquiz.DAL.Repositories;
@@ -16,11 +15,13 @@ namespace Cyberquiz.BLL.Services
     {
         private readonly IResultService _resultService;
         private readonly IQuestionRepository _questionRepo;
+        private readonly IQuizRepository _quizRepository;
 
-        public ProgressService(IResultService resultService, IQuestionRepository questionRepo)
+        public ProgressService(IResultService resultService, IQuestionRepository questionRepo, IQuizRepository quizRepository   )
         {
             _resultService = resultService;
             _questionRepo = questionRepo;
+            _quizRepository = quizRepository;
         }
 
         // Metod för att avgöra om en subkategori är upplåst
@@ -30,7 +31,7 @@ namespace Cyberquiz.BLL.Services
             var questions = await _questionRepo.GetBySubCategoryAsync(subCatId);
 
             // Hämta användarens resultat för underkategorin
-            var results = await _resultService.SubmitAnswerAsync(userId, subCatId);
+            var results = await _quizRepository.GetUserProgressAsync(userId, subCatId);
 
             // Om inga frågor: returnera false
             if (!questions.Any())
