@@ -1,4 +1,5 @@
-﻿using Cyberquiz.BLL.Interfaces;
+﻿using Cyberquiz.BLL.DummyFilesBLL;
+using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +11,16 @@ namespace Cyberquiz.API.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _categoryService;
+    
+    // Koppling till DummyRepo - Behöver ange "riktiga" repot
+        private readonly ICatRepo _categoryRepo;
 
-        public CategoryController(ICategoryService categoryService)
+        [HttpGet]
+        public async Task<ActionResult> GetCategories()
         {
-            _categoryService = categoryService;
+            var categories = await _categoryRepo.GetAllAsync();
+            return Ok(categories);
         }
-
 
         //GET: /api/categories
         [HttpGet]
@@ -38,5 +42,4 @@ namespace Cyberquiz.API.Controllers
         }
 
     }
-
 }
