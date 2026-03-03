@@ -17,6 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // DAL
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProgressRepository, ProgressRepository>();
 
 //Kommentera bort för swagger
  //BLL
