@@ -65,16 +65,15 @@ namespace Cyberquiz.BLL.Services
             }).ToList();
         }
 
-        // Metod för att starta ett quiz
-        public async Task<QuizDto> StartQuizAsync(int subCategoryId, string userId)
+        // Metod för att starta ett quiz - returnerar lista av frågor
+        public async Task<List<QuestionDto>> StartQuizAsync(int subCategoryId, string userId)
         {
-            var questions = await GetQuestionsBySubCategoryAsync(subCategoryId, userId);
-
-            return new QuizDto
-            {
-                SubCategoryId = subCategoryId,
-                Questions = questions
-            };
+            // GetQuestionsBySubCategoryAsync gör redan allt:
+            // 1. Kollar om subkategorin är upplåst
+            // 2. Hämtar frågor
+            // 3. Slumpar ordning
+            // 4. Mappar till DTOs
+            return await GetQuestionsBySubCategoryAsync(subCategoryId, userId);
         }
 
         // Metod för att skicka in ett svar
