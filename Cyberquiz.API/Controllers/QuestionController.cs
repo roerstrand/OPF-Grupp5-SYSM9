@@ -11,36 +11,36 @@ namespace Cyberquiz.API.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
-        //private readonly IQuestionService _questionService;
+        private readonly IQuestionService _questionService;
 
-        //public QuestionController(IQuestionService questionService)
-        //{
-        //    _questionService = questionService;
-        //}
+        public QuestionController(IQuestionService questionService)
+        {
+            _questionService = questionService;
+        }
 
-        //// GET api/quiz/subcategory/{subCategoryId}/next
-        //[HttpGet("subcategory/{subCategoryId:int}/next")]
-        //public async Task<ActionResult<QuestionDto>> GetNext(int subCategoryId)
-        //{
-        //    var userName = User.Identity?.Name ?? "user";
+        // GET api/quiz/subcategory/{subCategoryId}/next
+        [HttpGet("subcategory/{subCategoryId:int}/next")]
+        public async Task<ActionResult<QuestionDto>> GetNext(int subCategoryId)
+        {
+            var userName = User.Identity?.Name ?? "user";
 
-        //    var q = await _quiz.GetNextQuestionAsync(userName, subCategoryId);
-        //    if (q is null) return NotFound();
+            var q = await _questionService.GetNextQuestionAsync(userName, subCategoryId);
+            if (q is null) return NotFound();
 
-        //    return Ok(q);
-        //}
+            return Ok(q);
+        }
 
-        //// POST api/quiz/answer
-        //[HttpPost("answer")]
-        //public async Task<ActionResult<SubmitResponseDto>> Submit([FromBody] SubmitAnswerRequestDto request)
-        //{
-        //    if (request is null) return BadRequest();
+        // POST api/quiz/answer
+        [HttpPost("answer")]
+        public async Task<ActionResult<SubmitResponseDto>> Submit([FromBody] SubmitAnswerRequestDto request)
+        {
+            if (request is null) return BadRequest();
 
-        //    var userName = User.Identity?.Name ?? "user";
-        //    var result = await _quiz.SubmitAnswerAsync(userName, request);
+            var userName = User.Identity?.Name ?? "user";
+            var result = await _questionService.SubmitAnswerAsync(userName, request);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
 
         //OSÄKER-------------------------------------------------------------------------------------------------

@@ -11,27 +11,27 @@ namespace Cyberquiz.API.Controllers
     
     public class CategoryController : Controller
     {
-        //private readonly ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        //public CategoryController(ICategoryService categoryService)
-        //{
-        //    _categoryService = categoryService;
-        //}
+        public CategoryController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
 
-        //[HttpGet]
-        //public async Task<ActionResult<List<CategoryDto>>> GetAllCategoriesAsync()
-        //{
-        //    var userName = User.Identity?.Name ?? "user";
-        //    var data = await _categoryService.GetAllCategoriesAsync();
-        //    return Ok(data);
-        //}
-        //// GET api/categories/{categoryId}/subcategories
-        //[HttpGet("{categoryId:int}/subcategories")]
-        //public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories(int categoryId)
-        //{
-        //    var userName = User.Identity?.Name ?? "user";
-        //    var data = await _categoryService.GetSubCategoriesByCategoryIdAsync(userName, categoryId);
-        //    return Ok(data);
-        //}
+        [HttpGet]
+        public async Task<ActionResult<List<CategoryDto>>> GetAllCategoriesAsync()
+        {
+            var userName = User.Identity?.Name ?? "user";
+            var data = await _categoryService.GetAllCategoriesAsync();
+            return Ok(data);
+        }
+        // GET api/categories/{categoryId}/subcategories
+        [HttpGet("{categoryId:int}/subcategories")]
+        public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories(int categoryId)
+        {
+            var userName = User.Identity?.Name ?? "user";
+            var data = await _categoryService.GetSubCategoriesByCategoryIdAsync(userName, categoryId);
+            return Ok(data);
+        }
     }
 }
