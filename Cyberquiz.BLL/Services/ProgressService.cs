@@ -1,6 +1,6 @@
 ﻿using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.DAL.Interface;
-using System.Threading.Tasks;
+using Cyberquiz.DAL.Models;
 
 namespace Cyberquiz.BLL.Services
 {
@@ -8,36 +8,60 @@ namespace Cyberquiz.BLL.Services
     // Använder ResultsService för att hämta information om användarens resultat
     public class ProgressService : IProgressService
     {
-        private readonly IQuizRepository _quizRepository;
-
-        public ProgressService(IQuizRepository quizRepository)
+        // Injicerar IRepos
+        private readonly IProgressRepository _progressRepo;
+        private readonly IQuestionRepository _questionRepo;
+        public ProgressService(IProgressRepository progressRepo, IQuestionRepository questionRepo)
         {
-            _quizRepository = quizRepository;
+            _progressRepo = progressRepo;
+            _questionRepo = questionRepo;
         }
-
-        // Metod för att avgöra om en subkategori är upplåst
-        public async Task<bool> IsSubCategoryUnlockedAsync(string userId, int subCatId)
+        // Anropar metoder i Repos
+        // Hämta underkategori för en användare
+        public async Task<UserProgressModel?> GetByUserAndSubCategoryAsync(string userId, int subCategoryId)
         {
-            // Hämta användarens progress för underkategorin
-            var progress = await _quizRepository.GetUserProgressAsync(userId, subCatId);
+            return await _progressRepo.GetByUserAndSubCategoryAsync(userId, subCategoryId);
+        }
+        // Hämta alla underkategorier användaren klarat
+        public async Task<IEnumerable<UserProgressModel>> GetAllByUserAsync(string userId)
+        {
+            return await _progressRepo.GetAllByUserAsync(userId);
+        }
+        // Spara användarens antal rätt och antal besvarade frågor
+        public async Task SaveProgressAsync(UserProgressModel progress)
+        {
+            await _progressRepo.SaveProgressAsync(progress);
+        }
+        // Spara användarens svarsval
+        public async Task SaveUserAnswerAsync(UserAnswerModel answer)
+        {
+            await _progressRepo.SaveUserAnswerAsync(answer);
+        }
+        // Hämta svarsalternativ för en underkategori
+        public async Task<IEnumerable<UserAnswerModel>> GetAnswersByUserAndSubCategoryAsync(string userId, int subCategoryId)
+        {
+            return await _progressRepo.GetAnswersByUserAndSubCategoryAsync(userId, subCategoryId);
+        }
+        // Metod för att beräkna användarens procentuella resultat
+        public async Task<double> CalculateSuccessRateAsync(string userId, int subCategoryId)
+        {
+            var answers = await _progressRepo
+                .GetAnswersByUserAndSubCategoryAsync(userId, subCategoryId);
 
-            // Om ingen progress finns: subkategorin är inte upplåst
-            if (progress == null)
-            {
-                return false;
-            }
+            if (!answers.Any())
+                return 0;
 
-            // Om inga frågor besvarats: returnera false
-            if (progress.TotalQuestions == 0)
-            {
-                return false;
-            }
+            double correct = answers.Count(a => a.IsCorrect);
+            double total = answers.Count();
 
-            // Beräkna andel rätt svar
-            double resultsScore = (double)progress.Score / progress.TotalQuestions;
+            return (correct / total) * 100;
+        }
+        // Metod för att kontrollera användarens resultat i förhållande till vår uppsatta gräns för att öppna nästa underkategori
+        public async Task<bool> IsSubCategoryCompletedAsync(string userId, int subCategoryId)
+        {
+            double successRate = await CalculateSuccessRateAsync(userId, subCategoryId);
 
-            // Subkategorin är upplåst om användaren har minst 80% rätt
-            return resultsScore >= 0.80;
+            return successRate >= 80; // Gräns för att öppna nästa underkategori
         }
     }
 }

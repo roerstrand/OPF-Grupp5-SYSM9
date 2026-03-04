@@ -11,9 +11,9 @@ namespace Cyberquiz.API.Controllers
     [Authorize]
     public class QuizController : Controller
     {
-        private readonly IQuizService _quizService;
+        private readonly ICategoryService _quizService;
 
-        public QuizController(IQuizService quizService)
+        public QuizController(ICategoryService quizService)
         {
             _quizService = quizService;
         }
