@@ -20,14 +20,9 @@ namespace Cyberquiz.API.Controllers
         }
 
 
-        // GET api/progress/profile
-        [HttpGet("profile")]
-        public async Task<ActionResult<List<UserProgressDto>>> GetProgress()
-        {
-            var userName = User.Identity?.Name ?? "user";
-            var data = await _progressService.GetUserProgressAsync(userName);
-            return Ok(data);
-        }
 
+
+
+        
     }
 }
