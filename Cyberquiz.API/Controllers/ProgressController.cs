@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cyberquiz.API.Controllers
 {
     [ApiController]
-    [Route("api/profile")]
+    [Route("api/progress")]
     
-    public class ProgressController : Controller
+    public class ProgressController : ControllerBase
     {
         
-        // Senare: injicera IProgressService
         private readonly IProgressService _progressService;
 
         public ProgressController(IProgressService progressService)
@@ -19,10 +18,37 @@ namespace Cyberquiz.API.Controllers
             _progressService = progressService;
         }
 
+        // GET api/progress/profile
 
+        [HttpGet("profile")]
+        public async Task<ActionResult<List<UserProgressDto>>> GetProfile()
+        {
+            var userName = User.Identity?.Name ?? "user";
+            var data = await _progressService.GetUserProgressAsync(userName);
+            return Ok(data);
+        }
+        // DUMMY DATA (ta bort när ni har riktig data från BLL)-----------------------------------------------------------
 
+        //// GET api/progress/profile
+        //[HttpGet("profile")]
+        //public ActionResult<List<UserProgressDto>> GetProfile()
+        //{
+        //    var data = new List<UserProgressDto>
+        //{
+        //    new UserProgressDto
+        //    {
+        //        Id = 1,
+        //        UserName = "user",
+        //        SubCategoryId = 101,
+        //        SubCategoryName = "TCP/IP",
+        //        Score = 4,
+        //        TotalQuestions = 5,
+        //        CompletedAt = DateTime.UtcNow.AddDays(-1)
+        //    }
+        //};
 
+        //    return Ok(data);
+        //}
 
-        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cyberquiz.DAL.Models;
+using Cyberquiz.Shared.DTOs;
 
 namespace Cyberquiz.BLL.Interfaces
 {
@@ -17,5 +18,8 @@ namespace Cyberquiz.BLL.Interfaces
         Task<double> CalculateSuccessRateAsync(string userId, int subCategoryId);
 
         Task<bool> IsSubCategoryCompletedAsync(string userId, int subCategoryId);
+
+        //Behövs
+        //Task<List<UserProgressDto>> GetUserProgressAsync(string userName);
     }
 }
