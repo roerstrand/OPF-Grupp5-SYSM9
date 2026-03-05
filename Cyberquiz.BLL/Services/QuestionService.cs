@@ -2,6 +2,7 @@
 using Cyberquiz.DAL.Models;
 using Cyberquiz.DAL.Interface;
 using Cyberquiz.Shared.DTOs;
+using Cyberquiz.Shared.DTOs.Progress;
 
 namespace Cyberquiz.BLL.Services
 {
@@ -22,6 +23,14 @@ namespace Cyberquiz.BLL.Services
         {
             var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
             return questions.Select(MapToQuestionDto);
+        }
+
+        // Metod för ENDPOINT "subcategory/{subCategoryId:int}/next"
+        // Metoden hämtar nästa fråga för en användare inom en specifik subkategori, baserat på användarens tidigare svar och framsteg
+        public async Task<QuestionDto?> GetNextQuestionAsync(string userName, int subCategoryId)
+        {
+            var question = await _questionRepo.GetNextQuestionAsync(userName, subCategoryId);
+            return question == null ? null : MapToQuestionDto(question);
         }
 
         // Mapping-metod från Model till Dto
