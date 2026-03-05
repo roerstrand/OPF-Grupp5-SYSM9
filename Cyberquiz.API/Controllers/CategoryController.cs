@@ -19,7 +19,7 @@ namespace Cyberquiz.API.Controllers
             _categoryService = categoryService;
         }
 
-        // GET api/categories/overview
+        // GET api/categories/
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetCategories()
         {
@@ -27,15 +27,17 @@ namespace Cyberquiz.API.Controllers
             var data = await _categoryService.GetAllCategoriesAsync(userName);
             return Ok(data);
         }
+        
 
         // GET api/categories/{categoryId}/subcategories
         [HttpGet("{categoryId:int}/subcategories")]
-        public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories(int categoryId)
+        public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories (int categoryId)
         {
             var userName = User.Identity?.Name ?? "user";
             var data = await _categoryService.GetSubCategoryByIdAsync(userName, categoryId);
             return Ok(data);
         }
+        
 
 
         //DUMMY DATA (ta bort när ni har riktig data från BLL)-----------------------------------------------------------

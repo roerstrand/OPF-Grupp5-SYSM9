@@ -21,12 +21,26 @@ namespace Cyberquiz.API.Controllers
         // GET api/progress/profile
 
         [HttpGet("profile")]
-        public async Task<ActionResult<List<UserProgressDto>>> GetProfile()
+
+        public async Task<ActionResult<List<UserProgressDto>>> GetProgress()
         {
             var userName = User.Identity?.Name ?? "user";
-            var data = await _progressService.GetUserProgressAsync(userName);
+            var data = await _progressService.GetAllByUserAsync(userName);
             return Ok(data);
+
         }
+        
+
+        // GET api/progress/subcategory/{subCategoryId}/completed
+        [HttpGet("subcategory/{subCategoryId:int}/completed")]
+        public async Task<ActionResult<bool>> isSubCategoryCompleted(int subCategoryId)
+        {
+           var userName = User.Identity?.Name ?? "user";
+            var completed = await _progressService.IsSubCategoryCompletedAsync(userName, subCategoryId);
+            return Ok(completed);
+        }
+        
+
         // DUMMY DATA (ta bort när ni har riktig data från BLL)-----------------------------------------------------------
 
         //// GET api/progress/profile

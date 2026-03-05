@@ -20,6 +20,15 @@ namespace Cyberquiz.API.Controllers
         }
 
         // GET api/questions/subcategory/{subCategoryId}/next
+        //[HttpGet("subcategory/{subCategoryId:int}/next")]
+        //public async Task<ActionResult<QuestionDto>> GetQuestionBySubCategoryAsync(int subCategoryId)
+        //{
+        //    var userName = User.Identity?.Name ?? "user";
+        //    var q = await _questionService.GetBySubCategoryAsync(subCategoryId);
+        //    if (q is null || !q.Any()) return NotFound();
+
+        //    return Ok(q.First());
+        //}
         [HttpGet("subcategory/{subCategoryId:int}/next")]
         public async Task<ActionResult<QuestionDto>> GetNextQuestionAsync(int subCategoryId)
         {
@@ -33,15 +42,14 @@ namespace Cyberquiz.API.Controllers
 
         // POST api/questions/answer
         [HttpPost("answer")]
-        public async Task<ActionResult<SubmitResponseDto>> SubmitAnswerAsync([FromBody] SubmitAnswerRequestDto request)
+        public async Task<ActionResult<SubmitResponseDto>> SubmitAnswer ([FromBody] SubmitAnswerRequestDto request)
         {
             if (request is null) return BadRequest();
-
             var userName = User.Identity?.Name ?? "user";
             var result = await _questionService.SubmitAnswerAsync(userName, request);
-
             return Ok(result);
         }
+        
 
         //DUMMY DATA (ta bort när ni har riktig data från BLL)-----------------------------------------------------------
 

@@ -19,7 +19,6 @@ namespace Cyberquiz.BLL.Interfaces
 
         Task<bool> IsSubCategoryCompletedAsync(string userId, int subCategoryId);
 
-        //Behövs
-        //Task<List<UserProgressDto>> GetUserProgressAsync(string userName);
+        
     }
 }
