@@ -16,18 +16,18 @@ namespace Cyberquiz.BLL.Services
             _progressRepo = progressRepo;
         }
 
-        // Metod för ENDPOINT "subcategory/{subCategoryId:int}/questions" som hämtar alla frågor inom en underkategori
-        public async Task<IEnumerable<QuestionDto>> GetBySubCategoryAsync(int subCategoryId)
-        {
-            var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
-            return questions.Select(MapToQuestionDto);
-        }
-
         // Metod för ENDPOINT "questions/{id:int}" som hämtar en enskild fråga med svarsalternativ
         public async Task<QuestionDto?> GetByIdAsync(int id)
         {
             var question = await _questionRepo.GetByIdAsync(id);
             return question == null ? null : MapToQuestionDto(question);
+        }
+
+        // Metod för ENDPOINT "subcategory/{subCategoryId:int}/questions" som hämtar alla frågor inom en underkategori
+        public async Task<IEnumerable<QuestionDto>> GetBySubCategoryAsync(int subCategoryId)
+        {
+            var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
+            return questions.Select(MapToQuestionDto);
         }
 
         // Metod för ENDPOINT "subcategory/{subCategoryId:int}/next" som hämtar nästa fråga inom underkategori utifrån användarens tidigare svar och framsteg
