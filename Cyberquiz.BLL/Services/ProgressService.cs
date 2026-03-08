@@ -50,6 +50,11 @@ namespace Cyberquiz.BLL.Services
             var answers = await _progressRepo.GetAnswersByUserAndSubCategoryAsync(userName, subCategoryId);
             return answers.Select(ans => MapToSubmitAnswerRequestDto(ans));
         }
+        // Metod för att ta bort alla svar och framsteg för en användare (GDPR/admin)
+        public async Task DeleteAllProgressForUserAsync(string userName)
+        {
+            await _progressRepo.DeleteByUserAsync(userName);
+        }
 
         // Metod för att beräkna användarens framgångsprocent inom en underkategori
         public async Task<double> CalculateSuccessRateAsync(string userName, int subCategoryId)
