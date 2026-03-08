@@ -99,6 +99,13 @@
         </section>
     </div>
 @code {
+    private ApplicationUser? user;
+    private string? currentUsername;
+    private DateTime? memberSince;
+    private bool isLoading = true;
+    private bool isSaving = false;
+    private string? successMessage;
+    private string? errorMessage;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -109,4 +116,130 @@
     [SupplyParameterFromForm]
     private PasswordInputModel PasswordInput { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        UsernameInput ??= new();
+        PasswordInput ??= new();
+
+        user = await UserManager.GetUserAsync(HttpContext.User);
+        if (user is null)
+        {
+            RedirectManager.RedirectTo("/Account/Login");
+            return;
+        }
+
+        currentUsername = await UserManager.GetUserNameAsync(user);
+        memberSince = user.CreatedAt ?? DateTime.UtcNow;
+
+        await LoadProgressAsync();
+    }
+
+    private async Task OnValidSubmitUsernameAsync()
+    {
+        if (user is null || string.IsNullOrEmpty(UsernameInput.NewUsername))
+            return;
+
+        if (UsernameInput.NewUsername == currentUsername)
+        {
+            errorMessage = "The new username is the same as the current username.";
+            return;
+        }
+
+        isSaving = true;
+        errorMessage = null;
+        successMessage = null;
+
+        try
+        {
+            var result = await UserManager.SetUserNameAsync(user, UsernameInput.NewUsername);
+
+            if (result.Succeeded)
+            {
+                await SignInManager.RefreshSignInAsync(user);
+                currentUsername = UsernameInput.NewUsername;
+                UsernameInput.NewUsername = string.Empty;
+                successMessage = "Your username has been updated.";
+                Logger.LogInformation("User {UserName} changed their username.", currentUsername);
+            }
+            else
+            {
+                errorMessage = $"Error: {string.Join(", ", result.Errors.Select(e => e.Description))}";
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error updating username");
+            errorMessage = "An error occurred while updating your username.";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private async Task OnValidSubmitPasswordAsync()
+    {
+        if (user is null)
+            return;
+
+        isSaving = true;
+        errorMessage = null;
+        successMessage = null;
+
+        try
+        {
+            var result = await UserManager.ChangePasswordAsync(
+            user,
+            PasswordInput.CurrentPassword,
+            PasswordInput.NewPassword);
+
+            if (result.Succeeded)
+            {
+                await SignInManager.RefreshSignInAsync(user);
+                PasswordInput = new();
+                successMessage = "Your password has been changed.";
+                Logger.LogInformation("User {UserName} changed their password.", currentUsername);
+            }
+            else
+            {
+                errorMessage = $"Error: {string.Join(", ", result.Errors.Select(e => e.Description))}";
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error changing password");
+            errorMessage = "An error occurred while changing your password.";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private sealed class UsernameInputModel
+    {
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        [Display(Name = "New username")]
+        public string NewUsername { get; set; } = "";
+    }
+
+    private sealed class PasswordInputModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string CurrentPassword { get; set; } = "";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; } = "";
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; } = "";
+    }
 }
