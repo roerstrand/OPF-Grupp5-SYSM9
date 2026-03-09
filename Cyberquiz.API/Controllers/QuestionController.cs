@@ -8,6 +8,7 @@ namespace Cyberquiz.API.Controllers
 {
     [ApiController]
     [Route("api/quiz")]
+    [Authorize]
     
     public class QuestionController : ControllerBase
     {

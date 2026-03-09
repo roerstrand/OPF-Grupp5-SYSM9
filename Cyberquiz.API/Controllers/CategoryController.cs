@@ -8,7 +8,7 @@ namespace Cyberquiz.API.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    
+    [Authorize]
     public class CategoryController : ControllerBase
     {
 
