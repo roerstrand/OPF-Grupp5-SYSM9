@@ -20,9 +20,9 @@ namespace Cyberquiz.BLL.Services
             return categories.Select(cs => MapToCategoryDto(cs));
         }
 
-        public async Task<CategoryDto?> GetCategoryByIdAsync(string userName, int id)
+        public async Task<CategoryDto?> GetCategoryByIdAsync(string userName, int categoryId)
         {
-            var category = await _categoryRepo.GetCategoryByIdAsync(userName, id);
+            var category = await _categoryRepo.GetCategoryByIdAsync(userName, categoryId);
             return category == null ? null : MapToCategoryDto(category);
         }
 
