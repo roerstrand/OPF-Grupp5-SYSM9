@@ -8,6 +8,6 @@ namespace Cyberquiz.BLL.Interfaces
         Task<CategoryDto?> GetCategoryByIdAsync(string userName, int categoryId);
 
         Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync(string userName);
-        Task<SubCategoryDto?> GetSubCategoryByIdAsync(string userName, int id); 
+        Task<SubCategoryDto?> GetSubCategoryByIdAsync(string userName, int subCategoryId); 
     }
 }
