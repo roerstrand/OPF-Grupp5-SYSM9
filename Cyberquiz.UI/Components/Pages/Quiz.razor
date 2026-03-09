@@ -174,8 +174,8 @@ else
             var progress = await ApiService.GetUserProgressAsync(SubCategoryId);
             _quizResult = progress.FirstOrDefault(p => p.SubCategoryId == SubCategoryId);
         }
-
-        selectedAnswerId = null;
+        //resetta svar
+        selectedAnswerId = null; 
         answered = false;
         result = null;
 
