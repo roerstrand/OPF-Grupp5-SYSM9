@@ -22,15 +22,16 @@ namespace Cyberquiz.BLL.Services
             return question == null ? null : MapToQuestionDto(question);
         }
 
-        // Metod för ENDPOINT "subcategory/{subCategoryId:int}/questions" som hämtar alla frågor inom en underkategori
-        public async Task<IEnumerable<QuestionDto>> GetBySubCategoryAsync(int subCategoryId)
-        {
-            var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
-            return questions.Select(qs => MapToQuestionDto(qs));
-        }
+        // METOD SOM INTE ANVÄNDS I NUVARANDE VERSION
+        //// Metod för ENDPOINT "subcategory/{subCategoryId:int}/questions" som hämtar alla frågor inom en underkategori
+        //public async Task<IEnumerable<QuestionDto>> GetBySubCategoryAsync(int subCategoryId, string userName)
+        //{
+        //    var questions = await _questionRepo.GetBySubCategoryAsync(subCategoryId, userName);
+        //    return questions.Select(qs => MapToQuestionDto(qs));
+        //}
 
         // Metod för ENDPOINT "subcategory/{subCategoryId:int}/next" som hämtar nästa fråga inom underkategori utifrån användarens tidigare svar och framsteg
-        public async Task<QuestionDto?> GetNextQuestionAsync(string userName, int subCategoryId)
+        public async Task<QuestionDto?> GetNextQuestionAsync(int subCategoryId, string userName)
         {
             // Hämta alla frågor inom underkategorin
             var allQuestions = await _questionRepo.GetBySubCategoryAsync(subCategoryId);
