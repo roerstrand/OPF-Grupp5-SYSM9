@@ -15,7 +15,7 @@ namespace Cyberquiz.DAL.Repositories
         }
 
         // Hämtar en enskild fråga med alla svarsalternativ
-        public async Task<QuestionModel?> GetByIdAsync(int id)
+        public async Task<QuestionModel?> GetByIdAsync(int id) // Döpa om till GetQuestionByIdAsync
         {
             return await _context.Questions
                 .AsNoTracking()
