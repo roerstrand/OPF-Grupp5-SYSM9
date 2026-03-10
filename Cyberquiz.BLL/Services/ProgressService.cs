@@ -6,7 +6,7 @@ using Cyberquiz.Shared.DTOs;
 namespace Cyberquiz.BLL.Services
 {
     // Reglerar åtkomst
-    // Använder ResultsService för att hämta information om användarens resultat
+    // Använder QuestionService för att hämta information om användarens resultat - ELLER???
     // Innehåller fem metoder för att samarbeta med Endpoints i ProgressController i API-lagret
     // Innehåller två metoder med affärslogik för att beräkna användarens framgångsprocent och avgöra om en underkategori är godkänd
     // Innehåller två metoder för att hantera GDPR och databasrensning, som inte är kopplade till några endpoints

@@ -5,6 +5,11 @@ using Cyberquiz.Shared.DTOs;
 
 namespace Cyberquiz.BLL.Services
 {
+    // Hanterar logik för frågor och svarsalternativ
+    // Kontrollerar om användaren svarar rätt eller fel på en fråga
+    // Tar emot requests från API-lagret, anropar metoder i repo-lagret och returnerar DTOs till API-lagret
+    // Innehåller tre metoder för att samarbeta med Endpoints i QuestionController i API-lagret
+    // Innehåller just nu även en mapping-metod för att konvertera mellan Model och Dto (eventuellt flytta till egen Mapper-klass)
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepo;
