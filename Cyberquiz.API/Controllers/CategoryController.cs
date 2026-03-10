@@ -1,7 +1,7 @@
 ﻿
 using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.Shared.DTOs;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization; // Uttonad - Används inte?
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cyberquiz.API.Controllers
@@ -20,21 +20,22 @@ namespace Cyberquiz.API.Controllers
         }
 
         // GET api/categories/
-        [HttpGet]
+        [HttpGet] 
         public async Task<ActionResult<List<CategoryDto>>> GetCategories()
         {
             var userName = User.Identity?.Name ?? "user";
-            var data = await _categoryService.GetAllCategoriesAsync(userName); // Visar bara kategorier om ngn är inloggad
+            var data = await _categoryService.GetAllCategoriesAsync(userName); // Visar bara om ngn är inloggad
+            if (data == null) return NotFound("Kategorier kunde inte hämtas");
             return Ok(data);
         }
         
-
         // GET api/categories/{categoryId}/subcategories
-        [HttpGet("{categoryId:int}/subcategories")]
+        [HttpGet("{categoryId:int}/subcategories")] 
         public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories (int categoryId)
         {
             var userName = User.Identity?.Name ?? "user";
-            var data = await _categoryService.GetSubCategoryByIdAsync(userName, categoryId);
+            var data = await _categoryService.GetSubCategoryByIdAsync(userName, categoryId); // Visar bara om ngn är inloggad
+            if (data == null) return NotFound("Underkategorier kunde inte hämtas.");
             return Ok(data);
         }
         
