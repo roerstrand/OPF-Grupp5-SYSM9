@@ -13,11 +13,12 @@ namespace Cyberquiz.BLL.Services
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepo;
-        private readonly object _progressService;
+        private readonly IProgressService _progressService;
 
-        public QuestionService(IQuestionRepository questionRepo)
+        public QuestionService(IQuestionRepository questionRepo, IProgressService progressService)
         {
             _questionRepo = questionRepo;
+            _progressService = progressService;
         }
 
         // Metod för ENDPOINT "questions/{id:int}" som hämtar en enskild fråga med svarsalternativ
