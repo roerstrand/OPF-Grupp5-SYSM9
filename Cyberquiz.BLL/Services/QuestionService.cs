@@ -50,7 +50,7 @@ namespace Cyberquiz.BLL.Services
         public async Task<SubmitResponseDto> SubmitAnswerAsync(string userName, SubmitAnswerRequestDto request) // Ska detta skickas till SaveUserAnswerAsync i IProgressRepo? 
         {
             // Hämta frågan
-            var question = await _questionRepo.GetByIdAsync(request.QuestionId);
+            var question = await _questionRepo.GetQuestionByIdAsync(request.QuestionId);
             if (question == null)
             {
                 throw new Exception("Frågan kunde inte hittas.");
