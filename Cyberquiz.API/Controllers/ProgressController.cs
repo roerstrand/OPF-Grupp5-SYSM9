@@ -49,6 +49,32 @@ namespace Cyberquiz.API.Controllers
             var completed = await _progressService.IsSubCategoryCompletedAsync(userName, subCategoryId);
             return Ok(completed);
         }
-        
+
+        // POST api/progress/answer - Sparar användarens svar
+        [HttpPost("answer")]
+        public async Task<ActionResult> SaveUserAnswer([FromBody] SubmitAnswerRequestDto request)
+        {
+            if (request is null) return BadRequest();
+
+            var userName = User.Identity?.Name ?? null;
+            if (userName == null) return BadRequest("Användaren kunde inte hittas.");
+
+            // Behöver först validera svaret för att veta om det är rätt eller fel
+            try
+            {
+                await _progressService.SaveUserAnswerAsync(
+                    userName,
+                    request.QuestionId,
+                    request.AnswerOptionId,
+                    request.IsCorrect);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
