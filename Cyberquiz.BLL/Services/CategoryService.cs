@@ -14,7 +14,7 @@ namespace Cyberquiz.BLL.Services
             _categoryRepo = categoryRepo;
         }
         // Anropar metoder i repo
-        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(string userName)
+        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
         {
             // Anropar repo 
             var categories = await _categoryRepo.GetAllCategoriesAsync();
@@ -39,7 +39,7 @@ namespace Cyberquiz.BLL.Services
             return subCategories.Select(scs => MapToSubCategoryDto(scs));
         }
 
-        public async Task<SubCategoryDto?> GetSubCategoryByIdAsync(string userName, int id)
+        public async Task<SubCategoryDto?> GetSubCategoryByIdAsync(int id)
         {
             // Anropar repo med underkategori-id som argument
             var subCategory = await _categoryRepo.GetSubCategoryByIdAsync(id);
