@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cyberquiz.BLL.Interfaces
+namespace Cyberquiz.BLL.AI_coach
 {
-    internal interface IAiService
+    public class OpenAiClient
     {
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cyberquiz.BLL.Services
+namespace Cyberquiz.Shared.DTOs.AI_DTOs
 {
-    internal class AiService
+    internal class AiUserSummaryDto
     {
     }
 }
