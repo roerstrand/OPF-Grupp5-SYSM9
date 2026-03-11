@@ -23,7 +23,7 @@ namespace Cyberquiz.API.Controllers
         [HttpGet] 
         public async Task<ActionResult<List<CategoryDto>>> GetCategories()
         {
-            var userName = User.Identity?.Name ?? "null";
+            var userName = User.Identity?.Name ?? null;
             var data = await _categoryService.GetAllCategoriesAsync(userName); // Visar bara om ngn är inloggad
             if (data == null) return NotFound("Kategorier kunde inte hämtas");
             return Ok(data);
@@ -33,7 +33,7 @@ namespace Cyberquiz.API.Controllers
         [HttpGet("{categoryId:int}/subcategories")] 
         public async Task<ActionResult<List<SubCategoryDto>>> GetSubCategories (int categoryId)
         {
-            var userName = User.Identity?.Name ?? "null";
+            var userName = User.Identity?.Name ?? null;
             var data = await _categoryService.GetSubCategoryByIdAsync(userName, categoryId); // Visar bara om ngn är inloggad
             if (data == null) return NotFound("Underkategorier kunde inte hämtas.");
             return Ok(data);
