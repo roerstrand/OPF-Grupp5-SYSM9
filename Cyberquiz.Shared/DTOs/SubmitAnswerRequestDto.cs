@@ -9,5 +9,6 @@ namespace Cyberquiz.Shared.DTOs
         public int SubCategoryId { get; set; } 
         public int QuestionId { get; set; }
         public int AnswerOptionId { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }
