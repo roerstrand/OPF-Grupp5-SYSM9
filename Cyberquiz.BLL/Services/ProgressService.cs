@@ -48,12 +48,19 @@ namespace Cyberquiz.BLL.Services
         }
 
         // Metod för ENDPOINT [HttpPost("answer")] som sparar användarens svar 
-        public async Task SaveUserAnswerAsync(SubmitAnswerRequestDto answer)
+        public async Task SaveUserAnswerAsync(string userName, int questionId, int answerOptionId, bool isCorrect)
         {
-            // Mappar Dto till Model
-            var answerModel = MapToUserAnswerModel(answer);
-            // Anropar metod i repo, modell som argument
-            await _progressRepo.SaveUserAnswerAsync(answerModel);         }
+            var userAnswer = new UserAnswerModel
+            {
+                UserName = userName,
+                QuestionId = questionId,
+                AnswerOptionId = answerOptionId,
+                IsCorrect = isCorrect,
+                AnsweredAt = DateTime.UtcNow
+            };
+
+            await _progressRepo.SaveUserAnswerAsync(userAnswer);
+        }
 
         // Metod för ENDPOINT [HttpGet("subcategory/{subCategoryId:int}/answers")]
         // ...som hämtar alla svar som sparats för en användare inom en underkategori
