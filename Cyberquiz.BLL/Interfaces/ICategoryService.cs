@@ -4,9 +4,9 @@ namespace Cyberquiz.BLL.Interfaces
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(string userName);
+        Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync();
         Task<CategoryDto?> GetCategoryByIdAsync(int categoryId);
         Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync();
-        Task<SubCategoryDto?> GetSubCategoryByIdAsync(string userName, int subCategoryId);
+        Task<SubCategoryDto?> GetSubCategoryByIdAsync(int subCategoryId);
     }
 }
