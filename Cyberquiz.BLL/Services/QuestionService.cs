@@ -49,44 +49,24 @@ namespace Cyberquiz.BLL.Services
             var nextQuestion = allQuestions.FirstOrDefault(q => !answeredQuestionIds.Contains(q.Id));
             // Returnera DTO för nästa fråga eller null om alla frågor redan är besvarade
             return nextQuestion == null ? null : MapToQuestionDto(nextQuestion); // Om inga svar 
-        } 
+        }
 
-        // Metod för ENDPOINT "answer" som tar emot användarens svar och uppdaterar framsteg
-        public async Task<SubmitResponseDto> SaveUserAnswerAsync(SubmitAnswerRequestDto request, string userName) // Ska detta skickas till SaveUserAnswerAsync i IProgressRepo?
+        // Metod för ENDPOINT "answer" som tar emot och validerar användarens svar
+        public async Task<(bool isCorrect, int CorrectAnswerOptionId)> ValidateAnswerAsync(int questionId, int answerOptionId) 
         {
             // Hämta frågan
-            var question = await _questionRepo.GetQuestionByIdAsync(request.QuestionId);
+            var question = await _questionRepo.GetQuestionByIdAsync(questionId);
             // Om frågan inte hittas
-            if (question == null)
-            {
-                throw new Exception("Frågan kunde inte hittas.");
-            }
+            if (question == null) throw new Exception("Frågan kunde inte hittas.");
             // (Annars) Kolla om användaren valt rätta svaret till den frågan
             var correctAnswerOption = question.QuestionAnswerOptions?
-                .FirstOrDefault(qao => qao.AnswerOptionId == request.AnswerOptionId);
-            if (correctAnswerOption == null)
-            {
-                throw new Exception("Rätt svar kunde inte hittas.");
-            }
-            // Annars hämta svarets id
-            bool isCorrect = correctAnswerOption.AnswerOptionId == request.AnswerOptionId;
-            // Spara användarens svar enligt modell
-            var userAnswer = new UserAnswerModel
-            {
-                UserName = userName,
-                QuestionId = request.QuestionId,
-                AnswerOptionId = request.AnswerOptionId,
-                IsCorrect = isCorrect,
-                AnsweredAt = DateTime.UtcNow,
-            };
-            // ...och uppdatera framsteg
-            await _progressService.SaveUserAnswerAsync(userAnswer);
-            // ... samt returnera resultatet till användaren
-            return new SubmitResponseDto
-            {
-                IsCorrect = isCorrect,
-                CorrectAnswerOptionId = correctAnswerOption.AnswerOptionId
-            };
+                .FirstOrDefault(qao => qao.AnswerOptionId == answerOptionId);
+            // Kolla om rätta svaret kan hittas
+            if (correctAnswerOption == null) throw new Exception("Rätt svar kunde inte hittas.");
+            // Annars hämta och jämför svaret
+            bool isCorrect = correctAnswerOption.AnswerOptionId == answerOptionId;
+            // och returnera
+            return (isCorrect, correctAnswerOption.AnswerOptionId);
         }
 
         // Mapping-metod från Model till Dto
