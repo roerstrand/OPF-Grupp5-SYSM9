@@ -22,10 +22,10 @@ namespace Cyberquiz.BLL.Services
         }
 
         // Metod för ENDPOINT "questions/{id:int}" som hämtar en enskild fråga med svarsalternativ
-        public async Task<QuestionDto?> GetQuestionByIdAsync(int id)
+        public async Task<QuestionDto?> GetQuestionByIdAsync(int questionId, string userName)
         {
-            // Anropar repo med frågans id som argument
-            var question = await _questionRepo.GetQuestionByIdAsync(id);
+            // Anropar repo med frågans id som argument (repot packar varje fråga med fyra svaralternativ)
+            var question = await _questionRepo.GetQuestionByIdAsync(questionId, userName);
             // Returnerar DTO för frågan eller null om frågan inte hittas
             return question == null ? null : MapToQuestionDto(question);
         }

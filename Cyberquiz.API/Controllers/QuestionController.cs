@@ -1,14 +1,13 @@
 using Cyberquiz.BLL.Interfaces;
 using Cyberquiz.Shared.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Http.HttpResults; // Uttonad - Används inte?
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cyberquiz.API.Controllers
 {
     [ApiController]
     [Route("api/quiz")]
-    
     public class QuestionController : ControllerBase
     {
 
@@ -19,24 +18,21 @@ namespace Cyberquiz.API.Controllers
             _questionService = questionService;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<QuestionDto>> GetQuestionByIdAsync(int id)
+        [HttpGet("{id:int}")] // Varje fråga kommer med fyra svaralternativ pga repots metod
+        public async Task<ActionResult<QuestionDto>> GetQuestionByIdAsync(int questionId)
         {
-            var result = await _questionService.GetQuestionByIdAsync(id);
+            var userName = User.Identity?.Name ?? null;
+            var result = await _questionService.GetQuestionByIdAsync(questionId, userName);  // Visar bara om ngn är inloggad
             if (result == null) return NotFound();
-
             return Ok(result);
         }
-        
 
         [HttpGet("subcategory/{subCategoryId:int}/next")]
         public async Task<ActionResult<QuestionDto>> GetNextQuestionAsync(int subCategoryId)
         {
-            var userName = User.Identity?.Name ?? "user";
-
-            var q = await _questionService.GetNextQuestionInSubCategoryAsync(subCategoryId, userName);
+            var userName = User.Identity?.Name ?? null;
+            var q = await _questionService.GetNextQuestionInSubCategoryAsync(subCategoryId, userName); // Visar bara om ngn är inloggad
             if (q is null) return NotFound();
-
             return Ok(q);
         }
 
@@ -46,7 +42,7 @@ namespace Cyberquiz.API.Controllers
             ([FromBody] SubmitAnswerRequestDto request)
         {
             if (request is null) return BadRequest();
-            var userName = User.Identity?.Name ?? "user";
+            var userName = User.Identity?.Name ?? null;
             var result = await _questionService.SaveUserAnswerAsync(request, userName);
             return Ok(result);
         }
