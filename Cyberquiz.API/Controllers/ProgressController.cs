@@ -7,7 +7,7 @@ namespace Cyberquiz.API.Controllers
 {
     [ApiController]
     [Route("api/progress")]
-    
+    [Authorize]
     public class ProgressController : ControllerBase
     {
         
