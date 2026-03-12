@@ -48,19 +48,6 @@ namespace Cyberquiz.BLL.Services
         }
 
         // Metod för ENDPOINT [HttpPost("answer")] som sparar användarens svar 
-        public async Task SaveUserAnswerAsync(string userName, int questionId, int answerOptionId, bool isCorrect)
-        {
-            var userAnswer = new UserAnswerModel
-            {
-                UserName = userName,
-                QuestionId = questionId,
-                AnswerOptionId = answerOptionId,
-                IsCorrect = isCorrect,
-                AnsweredAt = DateTime.UtcNow
-            };
-
-            await _progressRepo.SaveUserAnswerAsync(userAnswer);
-        }
 
         // Metod för ENDPOINT [HttpGet("subcategory/{subCategoryId:int}/answers")]
         // ...som hämtar alla svar som sparats för en användare inom en underkategori
@@ -85,9 +72,28 @@ namespace Cyberquiz.BLL.Services
         }
 
         // Metod för att spara användarens svar (för att kunna visa det i användarprofilen och för att beräkna framgångsprocenten)
-        public async Task SaveUserAnswerAsync(UserAnswerModel answer)
+        public async Task SaveUserAnswerAsync(SubmitAnswerRequestDto answer, string userName)
         {
-            await _progressRepo.SaveUserAnswerAsync(answer);
+            var progress = await _progressRepo.GetByUserAndSubCategoryAsync(userName, answer.SubCategoryId);
+
+            if (progress == null)
+            {
+                progress = new UserProgressModel
+                {
+                    UserName = userName,
+                    SubCategoryId = answer.SubCategoryId,
+                    Score = 0,
+                    TotalQuestions = 0,
+                    CompletedAt = DateTime.UtcNow
+                };
+                await _progressRepo.SaveProgressAsync(progress);
+            }
+
+            var answerModel = MapToUserAnswerModel(answer);
+            answerModel.UserName = userName;
+            answerModel.UserProgressId = progress.Id;
+
+            await _progressRepo.SaveUserAnswerAsync(answerModel);
         }
 
         // Metod för att ta bort alla svar och framsteg för en användare (GDPR/admin)

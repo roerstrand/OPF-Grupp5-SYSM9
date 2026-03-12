@@ -60,13 +60,31 @@ namespace Cyberquiz.BLL.Services
             if (question == null) throw new Exception("Frågan kunde inte hittas.");
             // (Annars) Kolla om användaren valt rätta svaret till den frågan
             var correctAnswerOption = question.QuestionAnswerOptions?
-                .FirstOrDefault(qao => qao.AnswerOptionId == answerOptionId);
-            // Kolla om rätta svaret kan hittas
-            if (correctAnswerOption == null) throw new Exception("Rätt svar kunde inte hittas.");
-            // Annars hämta och jämför svaret
-            bool isCorrect = correctAnswerOption.AnswerOptionId == answerOptionId;
-            // och returnera
-            return (isCorrect, correctAnswerOption.AnswerOptionId);
+                .FirstOrDefault(qao => qao.AnswerOptionId == request.AnswerOptionId);
+            if (correctAnswerOption == null)
+            {
+                throw new Exception("Rätt svar kunde inte hittas.");
+            }
+            // Annars hämta svarets id
+            bool isCorrect = correctAnswerOption.AnswerOptionId == request.AnswerOptionId;
+            // Spara användarens svar enligt modell
+            var userAnswer = new UserAnswerModel
+            {
+                UserName = userName,
+                QuestionId = request.QuestionId,
+                AnswerOptionId = request.AnswerOptionId,
+                IsCorrect = isCorrect,
+                AnsweredAt = DateTime.UtcNow,
+            };
+            // ...och uppdatera framsteg
+
+            await _progressService.SaveUserAnswerAsync(request, userName);
+            // ... samt returnera resultatet till användaren
+            return new SubmitResponseDto
+            {
+                IsCorrect = isCorrect,
+                CorrectAnswerOptionId = correctAnswerOption.AnswerOptionId
+            };
         }
 
         // Mapping-metod från Model till Dto

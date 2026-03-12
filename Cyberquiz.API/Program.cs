@@ -27,19 +27,16 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// ✅ FIX: CORS med AllowCredentials
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowUI", policy =>
     {
-        policy.AllowAnyOrigin();
-            //WithOrigins(
-            //    "https://localhost:7108",  // UI HTTPS
-            //    "http://localhost:5108"    // UI HTTP (backup)
-            //)
-            //.AllowAnyMethod()
-            //.AllowAnyHeader()
-            //.AllowCredentials(); // ✅ KRITISKT: Tillåt cookies!
+        policy.WithOrigins(
+                "https://localhost:7107",
+                "http://localhost:5247"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
@@ -67,11 +64,11 @@ context.Response.ContentType = "application/json";
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (app.Environment.IsDevelopment())
-    {
-        // ⚠️ TA BORT EFTER TEST - Raderar allt vid varje start!
-        await db.Database.EnsureDeletedAsync();
-    }
+    //if (app.Environment.IsDevelopment())
+    //{
+    //    // ⚠️ TA BORT EFTER TEST - Raderar allt vid varje start!
+    //    await db.Database.EnsureDeletedAsync();
+    //}
     await db.Database.MigrateAsync();
     await DbSeeder.SeedAsync(db);
 }
