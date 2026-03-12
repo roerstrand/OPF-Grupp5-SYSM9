@@ -49,18 +49,15 @@ namespace Cyberquiz.BLL.Services
             var nextQuestion = allQuestions.FirstOrDefault(q => !answeredQuestionIds.Contains(q.Id));
             // Returnera DTO för nästa fråga eller null om alla frågor redan är besvarade
             return nextQuestion == null ? null : MapToQuestionDto(nextQuestion); // Om inga svar 
-        } 
+        }
 
-        // Metod för ENDPOINT "answer" som tar emot användarens svar och uppdaterar framsteg
-        public async Task<SubmitResponseDto> SaveUserAnswerAsync(SubmitAnswerRequestDto request, string userName) // Ska detta skickas till SaveUserAnswerAsync i IProgressRepo?
+        // Metod för ENDPOINT "answer" som tar emot och validerar användarens svar
+        public async Task<(bool IsCorrect, int CorrectAnswerOptionId)> ValidateAnswerAsync(int questionId, int answerOptionId) 
         {
             // Hämta frågan
-            var question = await _questionRepo.GetQuestionByIdAsync(request.QuestionId);
+            var question = await _questionRepo.GetQuestionByIdAsync(questionId);
             // Om frågan inte hittas
-            if (question == null)
-            {
-                throw new Exception("Frågan kunde inte hittas.");
-            }
+            if (question == null) throw new Exception("Frågan kunde inte hittas.");
             // (Annars) Kolla om användaren valt rätta svaret till den frågan
             var correctAnswerOption = question.QuestionAnswerOptions?
                 .FirstOrDefault(qao => qao.AnswerOptionId == request.AnswerOptionId);

@@ -52,5 +52,22 @@ namespace Cyberquiz.API.Controllers
         }
 
 
+            try
+            {
+                var (isCorrect, correctAnswerOptionId) = await _questionService.ValidateAnswerAsync(
+                    request.QuestionId,
+                    request.AnswerOptionId);
+
+                return Ok(new AnswerValidationDto
+                {
+                    IsCorrect = isCorrect,
+                    CorrectAnswerOptionId = correctAnswerOptionId
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
