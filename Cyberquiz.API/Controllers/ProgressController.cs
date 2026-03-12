@@ -48,6 +48,6 @@ namespace Cyberquiz.API.Controllers
             var completed = await _progressService.IsSubCategoryCompletedAsync(userName, subCategoryId);
             return Ok(completed);
         }
-        
+
     }
 }

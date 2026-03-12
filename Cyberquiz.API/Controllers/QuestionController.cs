@@ -48,7 +48,5 @@ namespace Cyberquiz.API.Controllers
 
             return Ok(result);
         }
-
-
     }
 }

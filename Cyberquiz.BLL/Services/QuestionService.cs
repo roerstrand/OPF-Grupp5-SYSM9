@@ -49,31 +49,25 @@ namespace Cyberquiz.BLL.Services
             var nextQuestion = allQuestions.FirstOrDefault(q => !answeredQuestionIds.Contains(q.Id));
             // Returnera DTO för nästa fråga eller null om alla frågor redan är besvarade
             return nextQuestion == null ? null : MapToQuestionDto(nextQuestion); // Om inga svar 
-        } 
+        }
 
         // Metod för ENDPOINT "answer" som tar emot användarens svar och uppdaterar framsteg
-        public async Task<SubmitResponseDto> SaveUserAnswerAsync(SubmitAnswerRequestDto request, string userName) // Ska detta skickas till SaveUserAnswerAsync i IProgressRepo?
+        public async Task<SubmitResponseDto> SaveUserAnswerAsync(SubmitAnswerRequestDto request, string userName)
         {
             // Hämta frågan
             var question = await _questionRepo.GetQuestionByIdAsync(request.QuestionId);
             // Om frågan inte hittas
-            if (question == null)
-            {
-                throw new Exception("Frågan kunde inte hittas.");
-            }
-            // (Annars) Kolla om användaren valt rätta svaret till den frågan
+            if (question == null) throw new Exception("Frågan kunde inte hittas.");
+            // Hitta rätt svar
             var correctAnswerOption = question.QuestionAnswerOptions?
                 .FirstOrDefault(qao => qao.IsCorrect);
-            if (correctAnswerOption == null)
-            {
-                throw new Exception("Rätt svar kunde inte hittas.");
-            }
-            bool isCorrect = request.AnswerOptionId == correctAnswerOption.AnswerOptionId;
+            if (correctAnswerOption == null) throw new Exception("Rätt svar kunde inte hittas.");
 
+            bool isCorrect = request.AnswerOptionId == correctAnswerOption.AnswerOptionId;
             request.IsCorrect = isCorrect;
 
             await _progressService.SaveUserAnswerAsync(request, userName);
-            // ... samt returnera resultatet till användaren
+
             return new SubmitResponseDto
             {
                 IsCorrect = isCorrect,
