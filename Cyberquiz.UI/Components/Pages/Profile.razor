@@ -99,10 +99,41 @@
             </EditForm>
         </section>
     </div>
+    
     <div class="col-lg-4 col-lg-offset-2">
+    
         <section>
             <h3>Din progression</h3>
             <hr />
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">AI Coach Feedback</h5>
+                    <p class="text-muted small mb-2">
+                        Få feedback från våran AI coach
+                    </p>
+
+                    <button type="button"
+                            class="btn btn-primary"
+                            disabled="@aiLoading"
+                            @onclick="AskAiCoach">
+                        @(aiLoading ? "Analyserar..." : "Analysera min progression")
+                    </button>
+                    @if (!string.IsNullOrWhiteSpace(aiError))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @aiError
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(aiFeedback))
+                    {
+                        <div class="alert alert-info mt-3" role="alert">
+                            <h6>AI Coach Feedback:</h6>
+                            <p>@aiFeedback</p>
+                        </div>
+                    }
+                </div>
+            </div>
 
             @if (isLoading)
             {
@@ -177,6 +208,9 @@
     private string? successMessage;
     private string? errorMessage;
     private List<CategoryDto>? categories;
+    private bool aiLoading;
+    private string? aiFeedback;
+    private string? aiError;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -304,6 +338,26 @@
             isSaving = false;
         }
     }
+    private async Task AskAiCoach()
+    {
+        aiLoading = true;
+        aiError = null;
+        aiFeedback = null;
+        try
+        {
+            // var feedback = await ApiService.GetAiCoachFeedBackAsync();
+            // aiFeedback = feedback ?? "No feedback received from AI coach.";
+        }
+        catch (Exception ex)
+        {
+            aiError = ex.Message;
+        }
+        finally
+        {
+            aiLoading = false;
+        }
+    }
+
 
     private sealed class UsernameInputModel
     {
