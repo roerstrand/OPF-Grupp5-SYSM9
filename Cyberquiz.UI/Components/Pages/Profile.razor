@@ -278,7 +278,7 @@
         isLoading = true;
         try
         {
-            categories = await ApiService.GetCategoriesAsync(currentUsername);
+            categories = await ApiService.GetCategoriesAsync();
         }
         catch (Exception e)
         {
@@ -379,14 +379,7 @@
 
         try
         {
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                aiError = "Ingen inloggad användare hittades.";
-                aiActive = false;
-                return;
-            }
-
-            aiFeedback = await AiCoachApiService.GetFeedback(userName);
+            aiFeedback = await AiCoachApiService.GetFeedback();
 
             if (aiFeedback is null || string.IsNullOrWhiteSpace(aiFeedback.Feedback))
             {
