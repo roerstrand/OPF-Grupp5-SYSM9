@@ -27,26 +27,16 @@ namespace Cyberquiz.BLL.Services
         private string BuildPrompt(IEnumerable<UserProgressDto> history)
         {
             var sb = new StringBuilder();
-
-            sb.AppendLine("Du är en AI-coach som ger personlig feedback till EN användare baserat på resultaten nedan.");
-            sb.AppendLine("Skriv direkt till användaren i du-form (\"du\").");
-            sb.AppendLine("Använd aldrig ord som \"studenter\", \"elever\" eller \"klass\".");
+            sb.AppendLine("Du är en coach för en cybersäkerhetsutbildning. En användare har genomfört följande quiz inom olika cybersäkerhetsämnen (resultat i procent rätt svar):");
             sb.AppendLine();
-
-            sb.AppendLine("Användarens quizresultat per subkategori (poäng/antal = procent):");
             foreach (var entry in history)
             {
                 var percent = entry.TotalQuestions > 0 ? (entry.Score * 100 / entry.TotalQuestions) : 0;
-                sb.AppendLine($"- {entry.SubCategoryName}: {entry.Score}/{entry.TotalQuestions} = {percent}%");
+                sb.AppendLine($"{entry.SubCategoryName}: {percent}%");
             }
 
             sb.AppendLine();
-            sb.AppendLine("Svara på svenska med exakt tre rubriker:");
-            sb.AppendLine("Styrkor:");
-            sb.AppendLine("Svagheter:");
-            sb.AppendLine("Rekommendationer:");
-            sb.AppendLine("Max 150 ord. Var konkret och koppla rekommendationerna till resultaten.");
-
+            sb.AppendLine("Svara på svenska med tre korta stycken: Styrkor, Svagheter, Rekommendationer. Max 150 ord.");
             return sb.ToString();
         }
     }
