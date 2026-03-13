@@ -1,5 +1,6 @@
 ﻿@page "/profile"
 @using System.ComponentModel.DataAnnotations
+@using Cyberquiz.Shared.DTOs.AI_DTOs
 @using Cyberquiz.UI.Components.Account
 @using Cyberquiz.UI.Components.Account.Shared
 @using Cyberquiz.UI.Data
@@ -14,8 +15,10 @@
 @inject ILogger<Profile> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
-
+@inject AuthenticationStateProvider AuthStateProvider
+@inject AiCoachApiService AiCoachApiService
 @attribute [Authorize]
+@rendermode InteractiveServer
 
 
 <h1>Profil</h1>
@@ -23,14 +26,20 @@
 <div class="row">
     <div class="col-lg-6">
         <section class="mb-4">
-            <StatusMessage Message="@successMessage" />
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success" role="alert">@successMessage</div>
+            }
             <h2>Välkommen, @currentUsername</h2>
             
             <hr />
         </section>
 
         <section>
-            <StatusMessage Message="@errorMessage" />
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" role="alert">@errorMessage</div>
+            }
             <EditForm Model="UsernameInput" method="post" OnValidSubmit="OnValidSubmitUsernameAsync" FormName="change-username">
                 <DataAnnotationsValidator />
                 <h2>Byt användarnamn</h2>
@@ -99,10 +108,42 @@
             </EditForm>
         </section>
     </div>
+    
     <div class="col-lg-4 col-lg-offset-2">
+    
         <section>
             <h3>Din progression</h3>
             <hr />
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">AI Coach Feedback</h5>
+                    <p class="text-muted small mb-2">
+                        Få feedback från våran AI coach
+                    </p>
+
+                    <button type="button"
+                            id="AI-btn"
+                            class="btn btn-primary"
+                            disabled="@aiLoading"
+                            @onclick="AskAiCoach">
+                        @(aiLoading ? "Analyserar..." : "Analysera min progression")
+                    </button>
+                    @if (!string.IsNullOrWhiteSpace(aiError))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @aiError
+                        </div>
+                    }
+                    @if (aiFeedback != null && !string.IsNullOrWhiteSpace(aiFeedback.Feedback))
+                    {
+                        <div class="alert alert-info mt-3" role="alert">
+                            <h6>AI Coach Feedback:</h6>
+                            <p>@aiFeedback.Feedback</p>
+                        </div>
+                    }
+                </div>
+            </div>
 
             @if (isLoading)
             {
@@ -177,25 +218,24 @@
     private string? successMessage;
     private string? errorMessage;
     private List<CategoryDto>? categories;
+    private bool aiLoading;
+    private AiFeedbackDto? aiFeedback;
+    private string? aiError;
+    private string? userName;
 
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; } = default!;
-
-    [SupplyParameterFromForm]
-    private UsernameInputModel UsernameInput { get; set; } = default!;
-
-    [SupplyParameterFromForm]
-    private PasswordInputModel PasswordInput { get; set; } = default!;
+    private UsernameInputModel UsernameInput { get; set; } = new();
+    private PasswordInputModel PasswordInput { get; set; } = new();
 
     private int TotalCompleted => categories?.Sum(c => c.CompletedSubCategories) ?? 0; //summerar completed subcats för alla kategorier
     private int TotalRemaining => categories?.Sum(c => c.TotalSubCategories - c.CompletedSubCategories) ?? 0; //summerar kvarstående subcats för alla kategorier
 
     protected override async Task OnInitializedAsync()
     {
-        UsernameInput ??= new();
-        PasswordInput ??= new();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        userName = authState.User.Identity?.Name;
 
-        user = await UserManager.GetUserAsync(HttpContext.User);
+
+        user = await UserManager.FindByNameAsync(userName ?? "");
         if (user is null)
         {
             RedirectManager.RedirectTo("/login");
@@ -206,7 +246,7 @@
 
         await LoadProgressAsync();
     }
-    private async Task LoadProgressAsync()
+    private async Task LoadProgressAsync() //Hämta progression
     {
         isLoading = true;
         try
@@ -304,6 +344,36 @@
             isSaving = false;
         }
     }
+    private async Task AskAiCoach() //metod för att fråga AI om feedback
+    {
+        aiLoading = true;
+        aiError = null;
+        aiFeedback = null;
+        try
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                aiError = "Ingen inloggad användare hittades.";
+                return;
+            }
+
+            aiFeedback = await AiCoachApiService.GetFeedback(userName);
+
+            if (aiFeedback is null || string.IsNullOrWhiteSpace(aiFeedback.Feedback))
+            {
+                aiError = "Kunde inte hämta feedback just nu. Försök igen senare.";
+            }
+        }
+        catch (Exception ex)
+        {
+            aiError = ex.Message;
+        }
+        finally
+        {
+            aiLoading = false;
+        }
+    }
+
 
     private sealed class UsernameInputModel
     {
