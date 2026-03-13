@@ -17,8 +17,9 @@
 @inject IdentityRedirectManager RedirectManager
 @inject AuthenticationStateProvider AuthStateProvider
 @inject AiCoachApiService AiCoachApiService
-@attribute [Authorize]
 @rendermode InteractiveServer
+@attribute [Authorize]
+
 
 
 <h1>Profil</h1>
@@ -48,12 +49,12 @@
                 
                 <div class="form-floating mb-3">
                     <input type="text" value="@currentUsername" id="current-username" class="form-control" placeholder="Nuvarande användarnamn" disabled />
-                    <label for="current-username" class="form-label">Nuvarande användarnamn</label>
+                    <label for="current-username" class="form-label"></label>
                 </div>
                 
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="UsernameInput.NewUsername" id="UsernameInput.NewUsername" class="form-control" autocomplete="username" aria-required="true" placeholder="Nytt användarnamn" />
-                    <label for="UsernameInput.NewUsername" class="form-label">Nytt användarnamn</label>
+                    <label for="UsernameInput.NewUsername" class="form-label"></label>
                     <ValidationMessage For="() => UsernameInput.NewUsername" class="text-danger" />
                 </div>
                 
@@ -80,19 +81,19 @@
 
                 <div class="form-floating mb-3">
                     <InputText type="password" @bind-Value="PasswordInput.CurrentPassword" id="PasswordInput.CurrentPassword" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Nuvarande lösenord" />
-                    <label for="PasswordInput.CurrentPassword" class="form-label">Nuvarande lösenord</label>
+                    <label for="PasswordInput.CurrentPassword" class="form-label"></label>
                     <ValidationMessage For="() => PasswordInput.CurrentPassword" class="text-danger" />
                 </div>
 
                 <div class="form-floating mb-3">
                     <InputText type="password" @bind-Value="PasswordInput.NewPassword" id="PasswordInput.NewPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Nytt lösenord" />
-                    <label for="PasswordInput.NewPassword" class="form-label">Nytt lösenord</label>
+                    <label for="PasswordInput.NewPassword" class="form-label"></label>
                     <ValidationMessage For="() => PasswordInput.NewPassword" class="text-danger" />
                 </div>
 
                 <div class="form-floating mb-3">
                     <InputText type="password" @bind-Value="PasswordInput.ConfirmPassword" id="PasswordInput.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Bekräfta nytt lösenord" />
-                    <label for="PasswordInput.ConfirmPassword" class="form-label">Bekräfta nyttlösenord</label>
+                    <label for="PasswordInput.ConfirmPassword" class="form-label"></label>
                     <ValidationMessage For="() => PasswordInput.ConfirmPassword" class="text-danger" />
                 </div>
 
@@ -114,32 +115,57 @@
         <section>
             <h3>Din progression</h3>
             <hr />
-
+            
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">AI Coach Feedback</h5>
                     <p class="text-muted small mb-2">
-                        Få feedback från våran AI coach
+                        Få feedback från vår AI coach
                     </p>
 
                     <button type="button"
                             id="AI-btn"
                             class="btn btn-primary"
-                            disabled="@aiLoading"
+                            disabled="@(aiLoading || !aiActive)"
                             @onclick="AskAiCoach">
-                        @(aiLoading ? "Analyserar..." : "Analysera min progression")
+                        @if (aiLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                            <span>Analyserar...</span>
+                        }
+                        else if (!aiActive)
+                        {
+                            <i class="bi bi-x-circle me-2"></i>
+                            <span>AI Coach ej tillgänglig</span>
+                        }
+                        else
+                        {
+                            <span>Analysera min progression</span>
+                        }
                     </button>
+
+                    @*  Visa error alert om det finns fel *@
                     @if (!string.IsNullOrWhiteSpace(aiError))
                     {
                         <div class="alert alert-danger mt-3" role="alert">
-                            @aiError
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>Fel:</strong> @aiError
                         </div>
                     }
                     @if (aiFeedback != null && !string.IsNullOrWhiteSpace(aiFeedback.Feedback))
                     {
                         <div class="alert alert-info mt-3" role="alert">
-                            <h6>AI Coach Feedback:</h6>
-                            <p>@aiFeedback.Feedback</p>
+                            <h6><i class="bi bi-robot me-2"></i>AI Coach Feedback:</h6>
+                            <p class="mb-0">@aiFeedback.Feedback</p>
+                        </div>
+                    }
+
+                    @* Visa "inte tillgänglig" om ingen feedback och inget error (initial state) *@
+                    @if (!aiLoading && aiFeedback == null && string.IsNullOrWhiteSpace(aiError) && !aiActive)
+                    {
+                        <div class="alert alert-warning mt-3" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small>AI coach är inte tillgänglig just nu. Försök igen senare.</small>
                         </div>
                     }
                 </div>
@@ -166,7 +192,7 @@
                                 <p class="card-text text-muted small">@category.Description</p>
                             }
                             <p class="card-text">
-                                <strong>Progress:</strong> @category.CompletedSubCategories / @category.TotalSubCategories completed
+                                <strong>Progression:</strong> @category.CompletedSubCategories / @category.TotalSubCategories avklarade
                             </p>
 
                             @if (category.SubCategories != null && category.SubCategories.Any())
@@ -222,6 +248,7 @@
     private AiFeedbackDto? aiFeedback;
     private string? aiError;
     private string? userName;
+    private bool aiActive = true;
 
     private UsernameInputModel UsernameInput { get; set; } = new();
     private PasswordInputModel PasswordInput { get; set; } = new();
@@ -251,7 +278,7 @@
         isLoading = true;
         try
         {
-            categories = await ApiService.GetCategoriesAsync(currentUsername);
+            categories = await ApiService.GetCategoriesAsync();
         }
         catch (Exception e)
         {
@@ -349,24 +376,21 @@
         aiLoading = true;
         aiError = null;
         aiFeedback = null;
+
         try
         {
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                aiError = "Ingen inloggad användare hittades.";
-                return;
-            }
-
-            aiFeedback = await AiCoachApiService.GetFeedback(userName);
+            aiFeedback = await AiCoachApiService.GetFeedback();
 
             if (aiFeedback is null || string.IsNullOrWhiteSpace(aiFeedback.Feedback))
             {
-                aiError = "Kunde inte hämta feedback just nu. Försök igen senare.";
+                aiError = "Kunde inte få feedback från AI.";
             }
         }
         catch (Exception ex)
         {
-            aiError = ex.Message;
+            aiError = $"Ett oväntat fel uppstod: {ex.Message}";
+            aiActive = false; 
+            
         }
         finally
         {

@@ -1,7 +1,6 @@
-﻿namespace Cyberquiz.BLL.Interfaces
+namespace Cyberquiz.BLL.Interfaces;
+
+public interface IAiClient
 {
-    public interface IAiClient
-    {
-        Task<string> GetFeedback(string prompt);
-    }
+    Task<string> GetFeedback(string prompt);
 }
