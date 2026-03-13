@@ -41,7 +41,6 @@ namespace Cyberquiz.BLL.Services
 
             return result;
         }
-        // Metod som inte behövs?
 
         public async Task<CategoryDto?> GetCategoryByIdAsync(int categoryId)
         {
@@ -121,6 +120,7 @@ namespace Cyberquiz.BLL.Services
                 Name = model.Name,
                 CategoryName = model.Category?.Name ?? string.Empty,
                 Order = model.Order,
+                Description = model.Description,
                 QuestionCount = model.QuestionCount
             };
         }
