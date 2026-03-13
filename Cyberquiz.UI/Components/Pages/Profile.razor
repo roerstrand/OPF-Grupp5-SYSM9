@@ -19,6 +19,7 @@
 @inject AiCoachApiService AiCoachApiService
 @rendermode InteractiveServer
 @attribute [Authorize]
+@rendermode InteractiveServer
 
 
 <h1>Profil</h1>
@@ -26,14 +27,20 @@
 <div class="row">
     <div class="col-lg-6">
         <section class="mb-4">
-            <StatusMessage Message="@successMessage" />
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success" role="alert">@successMessage</div>
+            }
             <h2>Välkommen, @currentUsername</h2>
             
             <hr />
         </section>
 
         <section>
-            <StatusMessage Message="@errorMessage" />
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" role="alert">@errorMessage</div>
+            }
             <EditForm Model="UsernameInput" method="post" OnValidSubmit="OnValidSubmitUsernameAsync" FormName="change-username">
                 <DataAnnotationsValidator />
                 <h2>Byt användarnamn</h2>
@@ -117,6 +124,7 @@
                     </p>
 
                     <button type="button"
+                            id="AI-btn"
                             class="btn btn-primary"
                             disabled="@(aiLoading || !aiActive)"
                             @onclick="AskAiCoach">
@@ -144,8 +152,6 @@
                             <strong>Fel:</strong> @aiError
                         </div>
                     }
-
-                    @*  Visa success feedback om AI svarade *@
                     @if (aiFeedback != null && !string.IsNullOrWhiteSpace(aiFeedback.Feedback))
                     {
                         <div class="alert alert-info mt-3" role="alert">
@@ -244,14 +250,8 @@
     private string? userName;
     private bool aiActive = true;
 
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; } = default!;
-
-    [SupplyParameterFromForm]
-    private UsernameInputModel UsernameInput { get; set; } = default!;
-
-    [SupplyParameterFromForm]
-    private PasswordInputModel PasswordInput { get; set; } = default!;
+    private UsernameInputModel UsernameInput { get; set; } = new();
+    private PasswordInputModel PasswordInput { get; set; } = new();
 
     private int TotalCompleted => categories?.Sum(c => c.CompletedSubCategories) ?? 0; //summerar completed subcats för alla kategorier
     private int TotalRemaining => categories?.Sum(c => c.TotalSubCategories - c.CompletedSubCategories) ?? 0; //summerar kvarstående subcats för alla kategorier
@@ -262,10 +262,7 @@
         userName = authState.User.Identity?.Name;
 
 
-        UsernameInput ??= new();
-        PasswordInput ??= new();
-
-        user = await UserManager.GetUserAsync(HttpContext.User);
+        user = await UserManager.FindByNameAsync(userName ?? "");
         if (user is null)
         {
             RedirectManager.RedirectTo("/login");
@@ -393,19 +390,8 @@
 
             if (aiFeedback is null || string.IsNullOrWhiteSpace(aiFeedback.Feedback))
             {
-                aiError = "Kunde inte få feedback från AI. Kontrollera att Ollama körs.";
-                aiActive = false;  // AI failade
+                aiError = "Kunde inte få feedback från AI.";
             }
-            else
-            {
-                aiActive = true;  // AI fungerade
-            }
-        }
-        catch (HttpRequestException ex)
-        {
-            aiError = "Kunde inte ansluta till AI Coach";
-            aiActive = false;  
-            
         }
         catch (Exception ex)
         {

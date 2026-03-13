@@ -11,9 +11,9 @@ namespace Cyberquiz.UI.Services
             _http = http;
         }
 
-        public async Task<AiFeedbackDto> GetFeedback(string? userName)
+        public async Task<AiFeedbackDto> GetFeedback(string username)
         {
-            return await _http.GetFromJsonAsync<AiFeedbackDto>($"api/aicoach?userName={userName}");
+            return await _http.GetFromJsonAsync<AiFeedbackDto>($"api/aicoach/{userId}");
         }
 
     }
